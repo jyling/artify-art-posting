@@ -12,7 +12,7 @@
   <title>Register</title>
 </head>
 <body>
-  <div class="container">
+  <div class="container container-sm">
 
 <?php
 $username = '';
@@ -70,22 +70,22 @@ if (Input::exist()) {
   }
   else {
     foreach ($valid->getError() as $key => $val) {
-
+      $a = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
       switch ($key) {
         case 'usrname':
-          $username .= "<div class='thin-alert alert alert-danger'>$val</div>";
+          $username .= "<div class='thin-alert alert alert-danger alert-dismissible fade show'>$val $a</div>";
           break;
         case 'password':
-          $pass .= "<div class='thin-alert alert alert-danger'>$val</div>";
+          $pass .= "<div class='thin-alert alert alert-danger alert-dismissible fade show'>$val $a</div>";
           break;
         case 'second_password':
-          $pass1 .= "<div class='thin-alert alert alert-danger'>$val</div>";
+          $pass1 .= "<div class='thin-alert alert alert-danger alert-dismissible fade show'>$val $a</div>";
             break;
         case 'fname':
-          $fname .= "<div class='thin-alert alert alert-danger'>$val</div>";
+          $fname .= "<div class='thin-alert alert alert-danger alert-dismissible fade show'>$val $a</div>";
             break;
         case 'lname':
-          $lname .= "<div class='thin-alert alert alert-danger'>$val</div>";
+          $lname .= "<div class='thin-alert alert alert-danger alert-dismissible fade show'>$val $a</div>";
             break;
         default:
           // code...
@@ -94,34 +94,35 @@ if (Input::exist()) {
     }
   }
 }
+print_r($_SESSION);
+
  ?>
   <form class="" action="" method="post">
     <div class="form-group">
       <label for="usrname">Username</label>
       <?php echo $username ?>
-      <input class="form-control" type="text" name="usrname" id="usrname" value="<?php echo Validate::sanitize(Input::get('usrname')); ?>" autocomplete="off">
+      <input class="form-control form-control-sm" type="text" name="usrname" id="usrname" value="<?php echo Validate::sanitize(Input::get('usrname',true)); ?>" autocomplete="off">
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input class="form-control" type="password" name="password" id="password" value="" autocomplete="off">
       <?php echo $pass ?>
+      <input class="form-control form-control-sm" type="password" name="password" id="password" value="" autocomplete="off">
     </div>
     <div class="form-group">
       <label for="second_password">Password Re-enter</label>
-      <input class="form-control" type="password" name="second_password" id="second_password" value="" autocomplete="off">
       <?php echo $pass1 ?>
+      <input class="form-control form-control-sm" type="password" name="second_password" id="second_password" value="" autocomplete="off">
     </div>
     <div class="form-group">
       <label for="fname">FirstName</label>
-      <input class="form-control" type="text" name="fname" id="fname" value="<?php echo Validate::sanitize(Input::get('fname')); ?>" autocomplete="off"><br>
       <?php echo $fname ?>
+      <input class="form-control form-control-sm" type="text" name="fname" id="fname" value="<?php echo Validate::sanitize(Input::get('fname',true)); ?>" autocomplete="off"><br>
       <label for="lname">LastName</label>
-      <input class="form-control" type="text" name="lname" id="lname" value="<?php echo Validate::sanitize(Input::get('lname')); ?>" autocomplete="off"><br>
       <?php echo $lname ?>
+      <input class="form-control form-control-sm" type="text" name="lname" id="lname" value="<?php echo Validate::sanitize(Input::get('lname',true)); ?>" autocomplete="off"><br>
     </div>
     <button type="submit" name="submit">Register</button>
   </form>
 </div>
-
 </body>
 </html>

@@ -10,7 +10,8 @@ $a['sql']['dbusr'] = 'root';
 $a['remberMe']['cookie_name'] = '$BEiWcC{IWd*RN 5v[u1#e|7fdeq(5vn~6}^45sv%C*,KP-XJTwrZ%f~6vQ;g1-q';
 $a['remberMe']['cookie_expiry'] = MonthToSec(2); // 2 months
 
-$a['session'][`u_nm`] = 'user';
+$a['session']['u_nm'] = 'user';
+$a['session']['tkn_nm'] = 'token';
 
 
 

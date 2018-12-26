@@ -15,11 +15,11 @@ class Input {
     }
   }
 
-  public static function get($term){
+  public static function get($term,$sec = false){
       if (isset($_POST[$term])) {
         return $_POST[$term];
       }
-      elseif (isset($_GET[$term])) {
+      elseif (isset($_GET[$term]) && $sec === false) {
         return $_GET[$term];
       }
       else {

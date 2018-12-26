@@ -15,41 +15,41 @@ class Validate {
         $value = trim($source[$item]);
         $item = $this->sanitize($item);
         if ($condition == 'required' && empty($value)) {
-          $this->addError("$rules[name] is needed",$item);
+          $this->addError("<strong>$rules[name]</strong> is needed",$item);
         } elseif(!empty($value)) {
           switch ($condition) {
             case 'min':
               if (strlen($value) < $con_value) {
-              $this->addError("The $rules[name] need to be more than $con_value characters long",$item);
+              $this->addError("The <strong>$rules[name]</strong> need to be more than <strong>$con_value</strong> characters long",$item);
               }
             break;
             case 'max':
               if (strlen($value) > $con_value) {
-              $this->addError("The $rules[name] need to be less than $con_value characters long",$item);
+              $this->addError("The <strong>$rules[name]</strong> need to be less than <strong>$con_value</strong> characters long",$item);
               }
             break;
             case 'match':
                 if ($value != $source[$con_value]) {
-                  $this->addError("The $rules[name] does not match $rules[match_name]",$item);
+                  $this->addError("The <strong>$rules[name]</strong> does not match <strong>$rules[match_name]</strong>",$item);
                 }
             break;
             case 'unique':
                     $check = DB::Run()->get($con_value,array($item,'=',$value));
                     if ($check->getCount()) {
-                      $this->addError("$rules[name] already exist",$item);
+                      $this->addError("<strong>$rules[name]</strong> already exist",$item);
                     }
             break;
             case 'charOnly' :
             if (preg_match('/[^a-zA-Zd]/i', $value))
               {
-                $this->addError("$rules[name] can only have english letters",$item);
+                $this->addError("<strong>$rules[name]</strong> can only have english letters",$item);
               }
             break;
             case 'charAndNums' :
             if ($con_value === true) {
               if (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $value))
               {
-                $this->addError("$rules[name] must contain at least one letters or numbers",$item);
+                $this->addError("<strong>$rules[name]</strong> must contain at least one letters or numbers",$item);
               }
             }
             break;

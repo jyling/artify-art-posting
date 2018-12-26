@@ -1,4 +1,11 @@
 .thin-alert {
-  padding: 0 !important;
-  padding: 5px 10px !important;
+  margin-bottom: 5px !important;
+  margin-top: 5px !important;
+
+}
+
+.container-sm {
+  width: 30% !important;
+  margin: 0% auto !important;
+  margin-top: 5% !important;
 }

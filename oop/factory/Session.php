@@ -24,4 +24,15 @@ class Session {
       return '';
     }
   }
+  public static function flash($name,$msg = "") {
+    if (self::exist($name)) {
+      $output = self::get($name);
+      self::remove($name);
+      return $output;
+    }
+    else {
+      self::put($name,$msg);
+    }
+    return '';
+  }
 }

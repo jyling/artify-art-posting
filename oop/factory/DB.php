@@ -14,6 +14,8 @@ class DB {
       $dbname = $Sets->get('sql>dbnm');
       $pass = $Sets->get('sql>pwd');
       $this->_pdo = new PDO("mysql:host=$host;dbname=$dbname",$usr, $pass);
+      $this->_pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+      $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
       die($e->getMessage());
     }
@@ -51,6 +53,9 @@ class DB {
   public function get($table,$condition = array()) {
     return $this->doThis('SELECT *', $table, $condition);
   }
+  public function getFirst($table,$condition = array()) {
+    return $this->doThis('SELECT *', $table, $condition)[0];
+  }
   public function remove($table,$condition = array()) {
     return $this->doThis('DELETE', $table, $condition);
   }
@@ -64,9 +69,9 @@ class DB {
       $values = null;
       $counter = 1;
 
-      $values = implode(',',array_fill(0, count($data), '?'));
+      $values = implode(',',array_fill(0, count($data), "?"));
 
-      $sql = "INSERT INTO `$table` (`" . implode('`,`',$keys) ."`) VALUES($values)";
+      $sql = "INSERT INTO `$table` (`" . implode('`,`',$keys) ."`) VALUES ($values)";
       if (!$this->query($sql,$data)->error()) {
         return true;
       }

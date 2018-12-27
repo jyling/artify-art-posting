@@ -15,13 +15,13 @@
   <div class="container container-sm">
 
 <?php
+require_once '../init.php';
 $username = '';
 $pass = '';
 $pass1 = '';
 $fname = '';
 $lname = '';
 
-require_once '../init.php';
 if (Input::exist()) {
   $valid = new Validate();
   $valid->check($_POST,array(
@@ -65,10 +65,31 @@ if (Input::exist()) {
     )
 
   ));
-  if ($valid->passed()) {
-    echo "passed";
+  $captcha = Captcha::verify($_POST);
+  if ($valid->passed() && $captcha['success']) {
+    $score = $captcha['score'];
+    $user = new User();
+    $salt = PassHasher::salty(32);
+    try {
+      $user->addUser(array(
+        'usrname' => Input::get('usrname'),
+        'fname' => Input::get('fname'),
+        'lname' => Input::get('lname'),
+        'passhash' => PassHasher::getHash(Input::get('password',true),$salt),
+        'salt' => $salt,
+        'joined' => date('Y-m-d H:i:s'),
+        'user_score' => $score,
+        'accountType' => 1
+      ));
+    } catch (\Exception $e) {
+      die($e->getMessage());
+    }
+
   }
   else {
+    if ($captcha['success'] === false) {
+      echo "<div class='thin-alert alert alert-warning alert-dismissible fade show'>" . $captcha['error-codes'][0]. "</div>";
+    }
     foreach ($valid->getError() as $key => $val) {
       $a = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
       switch ($key) {
@@ -94,10 +115,13 @@ if (Input::exist()) {
     }
   }
 }
-print_r($_SESSION);
 
  ?>
   <form class="" action="" method="post">
+    <div class="form-group">
+      <h1>Sign Up</h1>
+      <label><strong>Have an account ? </strong><br><i>you can <a href="login.php">Login</a> instead</i></label>
+    </div>
     <div class="form-group">
       <label for="usrname">Username</label>
       <?php echo $username ?>
@@ -121,7 +145,17 @@ print_r($_SESSION);
       <?php echo $lname ?>
       <input class="form-control form-control-sm" type="text" name="lname" id="lname" value="<?php echo Validate::sanitize(Input::get('lname',true)); ?>" autocomplete="off"><br>
     </div>
-    <button type="submit" name="submit">Register</button>
+    <div class="form-group">
+      <?php Captcha::add() ?>
+    </div>
+    <div class="form-group">
+      <p>
+     This site is protected by reCAPTCHA and the Google
+     <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+     <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+      </p>
+    </div>
+    <button class='btn btn-primary' type="submit" name="submit">Register</button>
   </form>
 </div>
 </body>

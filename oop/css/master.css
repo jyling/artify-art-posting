@@ -9,3 +9,9 @@
   margin: 0% auto !important;
   margin-top: 5% !important;
 }
+
+.grecaptcha-badge {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+}

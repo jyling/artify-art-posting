@@ -13,6 +13,20 @@ $a['remberMe']['cookie_expiry'] = MonthToSec(2); // 2 months
 $a['session']['u_nm'] = 'user';
 $a['session']['tkn_nm'] = 'token';
 
+$a['nav']['brand'] = array(
+  'title' => 'FYP',
+  'url' => 'index.php'
+);
+
+$a['nav']['items'] = array(
+  'Home' => 'index.php',
+  'Login' => 'login.php',
+  'Register' => 'reg.php'
+);
+
+$a['reader'] = 'factory/htmlSnippets/';
+$a['css']['source'] = '../css/master.css';
+
 
 
 $GLOBALS['settings'] = $a;

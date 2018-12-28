@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="../css/master.css">
-  <title>Register</title>
-</head>
-<body>
-  <div class="container container-sm">
-
 <?php
-require_once '../init.php';
+require_once 'init.php';
+Page::addHead();
+Page::addNav();
 $username = '';
 $pass = '';
 $pass1 = '';
 $fname = '';
 $lname = '';
-
+if (Session::isLogin()) {
+  header('Location: index.php');
+}
+else {
 if (Input::exist()) {
   $valid = new Validate();
   $valid->check($_POST,array(
@@ -81,6 +70,8 @@ if (Input::exist()) {
         'user_score' => $score,
         'accountType' => 1
       ));
+      Session::flash('success',"Sign Up success, you may now login");
+      header('Location: index.php');
     } catch (\Exception $e) {
       die($e->getMessage());
     }
@@ -115,14 +106,15 @@ if (Input::exist()) {
     }
   }
 }
-
+}
  ?>
+ <div class="container container-sm">
   <form class="" action="" method="post">
     <div class="form-group">
-      <h1>Sign Up</h1>
-      <label><strong>Have an account ? </strong><br><i>you can <a href="login.php">Login</a> instead</i></label>
-    </div>
-    <div class="form-group">
+      <div class="form-group">
+        <h1>Sign Up</h1>
+        <label><strong>Have an account ? </strong><br><i>you can <a href="login.php">Login</a> instead</i></label>
+      </div>
       <label for="usrname">Username</label>
       <?php echo $username ?>
       <input class="form-control form-control-sm" type="text" name="usrname" id="usrname" value="<?php echo Validate::sanitize(Input::get('usrname',true)); ?>" autocomplete="off">
@@ -147,13 +139,6 @@ if (Input::exist()) {
     </div>
     <div class="form-group">
       <?php Captcha::add() ?>
-    </div>
-    <div class="form-group">
-      <p>
-     This site is protected by reCAPTCHA and the Google
-     <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-     <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-      </p>
     </div>
     <button class='btn btn-primary' type="submit" name="submit">Register</button>
   </form>

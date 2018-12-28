@@ -1,5 +1,13 @@
 <?php
 class Session {
+  public static function isLogin(){
+    if (Session::exist('usrname')
+    || Session::exist('id')
+    || Session::exist('fullname')) {
+      return true;
+    }
+  }
+
   public static function put($sessionName,$sessionval){
     return $_SESSION["$sessionName"] = $sessionval;
   }

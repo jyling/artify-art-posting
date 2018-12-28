@@ -31,8 +31,8 @@ class DB {
   }
   public function doThis($condition,$table,$terms = array()) {
     if (count($terms) === 3) {
-      define('WHITELIST','=,<,>,>=,<=');
-      $allowed = explode(",",WHITELIST);
+      $WHITELIST = array('=','<','>','>=','<=');
+      $allowed = $WHITELIST;
 
       $term = $terms[0];
       $operator = $terms[1];

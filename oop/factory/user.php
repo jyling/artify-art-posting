@@ -20,6 +20,12 @@ class User {
     }
 
   }
+  public function getData(){
+    if (!empty($this->_data)) {
+      return $this->_data;
+    }
+    return '';
+  }
   public function verifyPass($pass,$passhash) {
     $passSalt = $pass.$this->_data->salt;
     if (password_verify($passSalt,$passhash)) {

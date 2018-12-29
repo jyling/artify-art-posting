@@ -7,7 +7,7 @@ $a['sql']['pwd'] = '';
 $a['sql']['dbnm'] = 'FYPTestGround';
 $a['sql']['dbusr'] = 'root';
 
-$a['remberMe']['cookie_name'] = '$BEiWcC{IWd*RN 5v[u1#e|7fdeq(5vn~6}^45sv%C*,KP-XJTwrZ%f~6vQ;g1-q';
+$a['remberMe']['cookie_name'] = 'BEiWcC';
 $a['remberMe']['cookie_expiry'] = MonthToSec(2); // 2 months
 
 $a['session']['u_nm'] = 'user';
@@ -25,7 +25,7 @@ $a['nav']['items'] = array(
 );
 
 $a['reader'] = 'factory/htmlSnippets/';
-$a['css']['source'] = '../css/master.css';
+$a['css']['source'] = 'css/master.css';
 
 
 
@@ -42,7 +42,17 @@ function MonthToSec($month = 1){
 }
 
 
-
 spl_autoload_register(function($class){
   require_once "factory/$class.php";
 });
+
+
+if (Cookie::check(Settings::get('remberMe>cookie_name')) && !Session::isLogin()) {
+  $hash = Cookie::get(Settings::get('remberMe>cookie_name'));
+  $hashCheck = DB::run()->get('session',array('hash','=',$hash));
+
+  if ($hashCheck->getCount()) {
+    $user = new User($hashCheck->getData()->usr_id);
+    $
+  }
+}

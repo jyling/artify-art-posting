@@ -23,7 +23,8 @@ if (Input::exist()) {
   ));
   if ($valid->passed()) {
     $user = new User();
-    $login = $user->login(Input::get('usrname'),Input::get('password'));
+    $remember = (Input::get('remember') === 'on')? true : false;
+    $login = $user->login(Input::get('usrname'),Input::get('password'),$remember);
     if ($login) {
       $user = new User();
       $data = $user->find(Input::get('usrname'))[0];
@@ -67,12 +68,12 @@ if (Input::exist()) {
      <div class="form-group">
        <label for="usrname">Username</label>
        <?php echo $username ?>
-       <input class="form-control form-control" type="text" name="usrname" id="usrname" value="" autocomplete="off">
+       <input class="form-control form-control" type="text" name="usrname" id="usrname" value="Jacks" autocomplete="off">
      </div>
      <div class="form-group">
        <label for="password">Password</label>
        <?php echo $pass ?>
-       <input class="form-control form-control" type="password" name="password" id="password" value="" autocomplete="off">
+       <input class="form-control form-control" type="password" name="password" id="password" value="990128a" autocomplete="off">
      </div>
      <div class="form-group">
      <!-- <div class="form-group"> -->
@@ -80,7 +81,7 @@ if (Input::exist()) {
      <!-- </div> -->
      </div>
      <div class="form-group">
-       <input type="checkbox" name="" id="remember" value=""> <label for="remember">Remember me</label>
+       <input  type="checkbox" name="remember" id="remember" > <label for="remember">Remember me</label>
      </div>
      <div class="form-group">
        <input class="btn btn-primary" type="submit" name="submit" value="Login">

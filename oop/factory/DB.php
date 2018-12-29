@@ -51,6 +51,7 @@ class DB {
 
   }
   public function get($table,$condition = array()) {
+    $this->doThis('SELECT *', $table, $condition);
     return $this->doThis('SELECT *', $table, $condition);
   }
   public function getFirst($table,$condition = array()) {
@@ -60,6 +61,7 @@ class DB {
     return $this->doThis('DELETE', $table, $condition);
   }
   public function getResult(){
+
     return $this->_output;
   }
   public function insert($table,$data = array()){

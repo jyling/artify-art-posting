@@ -1,6 +1,6 @@
 <?php
 class DB {
-  private static $conn = null;
+  private static $conn = NULL;
   private $_pdo,
           $_query,
           $_err = false,
@@ -24,10 +24,42 @@ class DB {
   public static function Run(){
     if (!isset(self::$conn)) { // self is like super in java
       self::$conn = new DB();
+      print_r(self::$conn);
+      echo "ad";
     }
     else {
+      print_r(self::$conn);
       return self::$conn;
     }
+  }
+  public function getLimit($table,$terms = array()){
+    if (count($terms) >= 2) {
+      $limit = $terms['limit'];
+      $offset = $terms['offset'];
+      $condition = '';
+      if (isset($terms['condition'],
+        $terms['condition']['target'],
+        $terms['condition']['value'],
+        $terms['condition']['operator']))
+        {
+          $condition = "WHERE " .
+          $terms['condition']['target'] .
+          " " . $terms['condition']['operator'] .
+          " " .   $terms['condition']['value'];
+        }
+      $sql = "SELECT * FROM $table $condition LIMIT $limit OFFSET $offset";
+      die($sql);
+      if (!$this->query($sql,array($val))->error()) {
+        return $this;
+      }
+    }
+    return false;
+  }
+  public function tester(){
+    var_dump(self::getLimit('msgdummy', array(
+      'limit' => '5',
+      'offset' => '6'
+    )));
   }
   public function doThis($condition,$table,$terms = array()) {
     if (count($terms) === 3) {
@@ -83,14 +115,14 @@ class DB {
     if (count($data)) {
       $values = null;
       $counter = 1;
-      //                                            *
-      foreach ($data as $key => $val) {             #
-        $values .= "`$key` = ?";                   #*#
-        if ($counter < count($data)) {            #*#*#
-         $values .= ', ';                       ####*##
-        }                                       ##*###*##
-        $counter++;                               #|||#
-      }                                            ###
+      //
+      foreach ($data as $key => $val) {
+        $values .= "`$key` = ?";
+        if ($counter < count($data)) {
+         $values .= ', ';
+        }
+        $counter++;
+      }
       $sql = "UPDATE `$table` SET $values WHERE `id` = $id";
       if (!$this->query($sql,$data)->error()) {
         return true;
@@ -125,3 +157,5 @@ class DB {
     return $this->_count;
   }
 }
+
+?>

@@ -24,6 +24,7 @@ if (Session::exist('success')) {
     </center>
 endl;
   }
+  DB::Run()->tester();
    ?>
 </div>
 </body>

@@ -4,7 +4,7 @@ session_start();
 $a = NULL;
 $a['sql']['host'] = 'localhost';
 $a['sql']['pwd'] = '';
-$a['sql']['dbnm'] = 'FYPTestGround';
+$a['sql']['dbnm'] = 'fyptestground';
 $a['sql']['dbusr'] = 'root';
 
 $a['remberMe']['cookie_name'] = '$BEiWcC{IWd*RN 5v[u1#e|7fdeq(5vn~6}^45sv%C*,KP-XJTwrZ%f~6vQ;g1-q';

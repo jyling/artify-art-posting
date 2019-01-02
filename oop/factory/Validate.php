@@ -7,7 +7,7 @@ class Validate {
     $this->_db = DB::Run();
   }
   public function sanitize($input){
-    return(strip_tags(htmlspecialchars($input)));
+    return(trim(strip_tags(htmlspecialchars($input))));
   }
   public function check($source,$items = array()) {
     foreach ($items as $item => $rules) {

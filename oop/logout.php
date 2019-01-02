@@ -4,5 +4,4 @@ Session::remove('usrname');
 Session::remove('id');
 Session::remove('fullname');
 
-header('Location: index.php');
-exit();
+Page::redirect('index.php');

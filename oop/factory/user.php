@@ -36,6 +36,17 @@ class User {
     }
 
   }
+  public function update($params = array(), $id = null){
+    if ($id === null && $this->_isLoggedIn === true) {
+      $id = $this->getData()->id;
+    }
+    if (!DB::Run()->update('usr',$id,$params)) {
+      throw new Exception('update error');
+    }
+    else {
+      Page::redirect('index.php');
+    }
+  }
   public function getData(){
       return $this->_data;
   }

@@ -41,6 +41,7 @@ class Reader{
       $this->_result = str_replace($key,$value,$this->_result);
       }
     }
+    echo $this->_result;
     return $this->_result;
   }
 

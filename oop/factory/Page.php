@@ -2,7 +2,13 @@
 <?php
 class Page{
   public static function redirect($target, $params = array()){
-    $url = $target;
+    $url = $target . self::urlGetMaker($params);
+    header("Location: $url");
+    exit();
+  }
+  
+  public static function urlGetMaker($params = array()){
+    $url = '';
     $counter = 0;
     foreach ($params as $key => $value) {
       if ($counter == 1) {
@@ -13,8 +19,7 @@ class Page{
         $counter++;
       }
     }
-    header("Location: $url");
-    exit();
+    return $url;
   }
   public static function addHead() {
     $read = new Reader();

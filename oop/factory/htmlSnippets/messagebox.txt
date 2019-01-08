@@ -1,0 +1,9 @@
+<div class="card " style="width: 18rem;">
+  <a class="achor-card" href="message_id">
+  <div class="card-body">
+    <h5 class="card-title" data-toggle="tooltip" data-placement="top" title="$fname">$name</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Post Id: <code>#$id</code></h6>
+    <p class="card-text">$msg</p>
+  </div>
+</a>
+</div>

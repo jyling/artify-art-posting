@@ -24,42 +24,43 @@ class DB {
   public static function Run(){
     if (!isset(self::$conn)) { // self is like super in java
       self::$conn = new DB();
-      print_r(self::$conn);
-      echo "ad";
     }
     else {
-      print_r(self::$conn);
       return self::$conn;
     }
   }
-  public function getLimit($table,$terms = array()){
-    if (count($terms) >= 2) {
+  private function conditionGenerator($terms) {
+    if (isset($terms['condition'],
+      $terms['condition']['target'],
+      $terms['condition']['value'],
+      $terms['condition']['operator']))
+      {
+        $condition = "WHERE " .
+        $terms['condition']['target'] .
+        " " . $terms['condition']['operator'] .
+        " " .   $terms['condition']['value'];
+        return $condition;
+      }
+    return '';
+  }
+  public function getAll($table) {
+    $sql = "SELECT * FROM $table";
+    if (!$this->query($sql)->error()) {
+      return $this->_count;
+    }
+    return false;
+  }
+  public function getLimited($table,$page,$terms = array()){
+    if (count($terms) >= 1) {
       $limit = $terms['limit'];
-      $offset = $terms['offset'];
-      $condition = '';
-      if (isset($terms['condition'],
-        $terms['condition']['target'],
-        $terms['condition']['value'],
-        $terms['condition']['operator']))
-        {
-          $condition = "WHERE " .
-          $terms['condition']['target'] .
-          " " . $terms['condition']['operator'] .
-          " " .   $terms['condition']['value'];
-        }
+      $offset = (--$page * $limit);
+      $condition = $this->conditionGenerator($terms);
       $sql = "SELECT * FROM $table $condition LIMIT $limit OFFSET $offset";
-      die($sql);
-      if (!$this->query($sql,array($val))->error()) {
+      if (!$this->query($sql)->error()) {
         return $this;
       }
     }
     return false;
-  }
-  public function tester(){
-    var_dump(self::getLimit('msgdummy', array(
-      'limit' => '5',
-      'offset' => '6'
-    )));
   }
   public function doThis($condition,$table,$terms = array()) {
     if (count($terms) === 3) {
@@ -83,7 +84,6 @@ class DB {
 
   }
   public function get($table,$condition = array()) {
-    $this->doThis('SELECT *', $table, $condition);
     return $this->doThis('SELECT *', $table, $condition);
   }
   public function getFirst($table,$condition = array()) {
@@ -93,7 +93,6 @@ class DB {
     return $this->doThis('DELETE', $table, $condition);
   }
   public function getResult(){
-
     return $this->_output;
   }
   public function insert($table,$data = array()){

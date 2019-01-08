@@ -75,34 +75,3 @@ class Form {
     echo $this->_product;
   }
 }
-
-
-$form = new Form();
-$form->genForm(array(
-  'action' => $_SERVER['PHP_SELF'],
-  'class' => 'form-group',
-  'method' => 'post'
-),
-array(
-    'name' => array(
-      'name' => 'username',
-      'placeholder' => 'username',
-      'type' => 'text',
-      'class' => 'classname',
-      'autocomplete' => false,
-      'required' => true
-    ),
-    'password' => array(
-      'name' => 'password',
-      'placeholder' => 'password',
-      'type' => 'password',
-      'autocomplete' => false,
-      'required' => true
-    ),
-    'submit' => array(
-      'name' => 'submit',
-      'type' => 'submit',
-      'required' => true
-    )
-)
-);

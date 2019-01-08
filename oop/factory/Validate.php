@@ -6,14 +6,14 @@ class Validate {
   public function __construct() {
     $this->_db = DB::Run();
   }
-  public function sanitize($input){
+  public static function sanitize($input){
     return(trim(strip_tags(htmlspecialchars($input))));
   }
   public function check($source,$items = array()) {
     foreach ($items as $item => $rules) {
       foreach ($rules as $condition => $con_value) {
         $value = trim($source[$item]);
-        $item = $this->sanitize($item);
+        $item = self::sanitize($item);
         if ($condition == 'required' && empty($value)) {
           $this->addError("<strong>$rules[name]</strong> is needed",$item);
         } elseif(!empty($value)) {

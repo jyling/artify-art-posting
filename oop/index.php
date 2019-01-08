@@ -7,13 +7,13 @@ if (Session::exist('success')) {
   Page::alertUser(Session::flash('success'));
 }
 ?>
-<div class="container container-sm">
+<div class="container container-full container-sm">
   <?php
   $user = new User();
   if ($user->getLogin()) {
-    echo "<h1 class='text-center'>Welcome Back, " . $user->getData()->usrname . "</h1><br>";
+    echo "<h1 class='text-center'>Welcome Back, " . $user->getData()->fname . ' ' . $user->getData()->lname . "</h1><br>";
     echo '<a class="btn btn-primary btn-outline-primary btn-block" href="logout.php">Logout</a><br>';
-    echo '<a class="btn btn-primary btn-outline-warning btn-block" href="logout.php">Logout</a><br>';
+    echo '<a class="btn btn-primary btn-warning btn-block" href="changeInfo.php">Change Profile Info</a><br>';
     echo '<a class="btn btn-primary btn-outline-danger btn-block" href="logout.php">Logout</a><br>';
   }
   else {
@@ -24,11 +24,19 @@ if (Session::exist('success')) {
     </center>
 endl;
   }
-<<<<<<< HEAD
-  DB::Run()->tester();
-=======
+  $page = 1;
+  if (Input::get('page') !== '') {
+    $page = Input::get('page');
+  }
 
->>>>>>> b724b0fdf04cf8671cc25798ba4ab43d3c36192e
+  $msg = new Message();
+  $msg->getMsg('msgdummy', Pagination::getPage(0) ,array(
+    'limit' => '10'
+  ));
+  echo "<div class='container'>";
+  $msg->generateMsg();
+  echo "</div>";
+  $pag = new Pagination($msg->totalPage());
    ?>
 </div>
 </body>

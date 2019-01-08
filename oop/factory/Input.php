@@ -14,7 +14,17 @@ class Input {
       break;
     }
   }
-
+  public static function has($term){
+      if (isset($_POST[$term])) {
+        return true;
+      }
+      elseif (isset($_GET[$term])) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
   public static function get($term,$sec = false){
       if (isset($_POST[$term])) {
         return $_POST[$term];

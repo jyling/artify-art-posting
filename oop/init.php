@@ -21,7 +21,8 @@ $a['nav']['brand'] = array(
 $a['nav']['items'] = array(
   'Home' => 'index.php',
   'Login' => 'login.php',
-  'Register' => 'reg.php'
+  'Register' => 'reg.php',
+  'Change Profile Info' => 'changeInfo.php'
 );
 
 $a['reader'] = 'factory/htmlSnippets/';
@@ -47,12 +48,12 @@ spl_autoload_register(function($class){
 });
 
 
-if (Cookie::check(Settings::get('remberMe>cookie_name')) && !Session::isLogin()) {
-  $hash = Cookie::get(Settings::get('remberMe>cookie_name'));
-  $hashCheck = DB::run()->get('session',array('hash','=',$hash));
-
-  if ($hashCheck->getCount()) {
-    $user = new User($hashCheck->getData()->usr_id);
-    $
-  }
-}
+// if (Cookie::check(Settings::get('remberMe>cookie_name')) && !Session::isLogin()) {
+//   $hash = Cookie::get(Settings::get('remberMe>cookie_name'));
+//   $hashCheck = DB::run()->get('session',array('hash','=',$hash));
+//
+//   // if ($hashCheck->getCount()) {
+//   //   $user = new User($hashCheck->getData()->usr_id);
+//   //   $
+//   // }
+// }

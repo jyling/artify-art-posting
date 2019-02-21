@@ -3,8 +3,13 @@ class Reader{
   private $_file = '',
           $_result = '',
           $_err = array();
-  public function read($name, $params = 'f') {
-      $this->Retrive(Settings::get('reader') . $name, $params);
+  public function read($name, $loc = '', $params = 'f') {
+      $target = (empty($loc))? Settings::get('reader') : $loc;
+      $this->Retrive($target . $name, $params);
+  }
+
+  public function getContent(){
+    return $this->_file;
   }
 
   private function Retrive($name,$param) {
@@ -25,6 +30,7 @@ class Reader{
         break;
       }
       fclose($fstream);
+      return $this->_file;
     }
     else {
       $this->writeError('File not exist or no params');
@@ -41,7 +47,6 @@ class Reader{
       $this->_result = str_replace($key,$value,$this->_result);
       }
     }
-    echo $this->_result;
     return $this->_result;
   }
 

@@ -53,6 +53,12 @@ class Validate {
               }
             }
             break;
+            case 'startWithChar' :
+            if ($con_value === true) {
+              if(is_numeric($value[0])) {
+                $this->addError("<strong>$rules[name]</strong> must starts with a letters",$item);
+              }
+            }
           }
         }
 

@@ -73,7 +73,7 @@
         		{
         			return false;
         		}
-        		if (element.text() == "...")
+        		if (element.text() == "")
         		{
         			return false;
         		}
@@ -103,11 +103,11 @@
     			    			candid_candidate.css("display", "none");
     			    			if (this.needsEtcSign(active_index, farthest_index - 1))
     			    			{
-    			    				this.els.eq(farthest_index - 2).before("<li class='disabled removable'><span>...</span></li>");
+    			    				this.els.eq(farthest_index - 2).before("<li class='disabled removable'><span></span></li>");
     			    			}
     			    			if (this.needsEtcSign(1, active_index))
     			    			{
-    			    				this.els.eq(1).after("<li class='disabled removable'><span>...</span></li>");
+    			    				this.els.eq(1).after("<li class='disabled removable'><span></span></li>");
     			    			}
     			    			return true;
     		    			}
@@ -134,7 +134,7 @@
     	    			{
     	    				hasHiddenElement = true;
     	    			}
-    	    			if (el.text() == "...")
+    	    			if (el.text() == "")
     	    			{
     	    				hasEtcSign = true;
     	    			}
@@ -156,22 +156,22 @@
     	    	$container.find("li").filter(".removable").remove();
     	    }
 
-            this.calculateWidth = function() 
-            { 
-                var width = 0; 
-                for (var i = 0; i < $container.find("li").length; i++) 
-                { 
-                    if(!($container.find("li").eq(i).css('display') == 'none')) 
-                    { 
+            this.calculateWidth = function()
+            {
+                var width = 0;
+                for (var i = 0; i < $container.find("li").length; i++)
+                {
+                    if(!($container.find("li").eq(i).css('display') == 'none'))
+                    {
                         if($container.find("li").eq(i).children("a").eq(0).length > 0){
                             width += $container.find("li").eq(i).children("a").eq(0).outerWidth();
                         }
                         if($container.find("li").eq(i).children("span").eq(0).length > 0){
                             width += $container.find("li").eq(i).children("span").eq(0).outerWidth();
-                        }                   
-                    } 
-                } 
-                return width; 
+                        }
+                    }
+                }
+                return width;
             }
 
     	    this.els = $container.find("li");

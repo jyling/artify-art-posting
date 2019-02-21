@@ -14,20 +14,43 @@ $a['session']['u_nm'] = 'user';
 $a['session']['tkn_nm'] = 'token';
 
 $a['nav']['brand'] = array(
-  'title' => 'FYP',
+  'title' => 'Artify.io',
   'url' => 'index.php'
 );
 
+
 $a['nav']['items'] = array(
-  'Home' => 'index.php',
-  'Login' => 'login.php',
-  'Register' => 'reg.php',
-  'Change Profile Info' => 'changeInfo.php'
+  'Home' => array(
+    'file' => 'index.php'
+  ),
+  'Create New Post' => array(
+    'file' => 'post.php',
+    'showOnLogin' => true
+  ),
+  'Login' => array(
+    'file' => 'login.php',
+    'showOnLogin' => false
+  ),
+  'Register' => array(
+    'file' => 'reg.php',
+    'showOnLogin' => false
+  ),
+  'Change Profile Info' => array(
+    'file' => 'changeInfo.php',
+    'showOnLogin' => true
+  ),
+  'Error' => array(
+    'file' => '404.php',
+    'visible' => false
+  ),
+  'View Post' => array(
+    'file' => 'viewPost.php',
+    'visible' => false
+  ),
 );
 
 $a['reader'] = 'factory/htmlSnippets/';
 $a['css']['source'] = 'css/master.css';
-
 
 
 $GLOBALS['settings'] = $a;
@@ -46,7 +69,8 @@ function MonthToSec($month = 1){
 spl_autoload_register(function($class){
   require_once "factory/$class.php";
 });
-
+ob_start();
+header('X-Frame-Options: DENY');
 
 // if (Cookie::check(Settings::get('remberMe>cookie_name')) && !Session::isLogin()) {
 //   $hash = Cookie::get(Settings::get('remberMe>cookie_name'));

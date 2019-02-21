@@ -4,6 +4,13 @@ class Form {
           $_head = '',
           $_body = '',
           $_product = '';
+
+          public function __construct($formhead = array(),$inputs = array(),$break = false) {
+            $this->_head =  $this->makeHead($formhead);
+            $this->_body = $this->makeInput($inputs,$break);
+            $this->_product = $this->_head . $this->_body . "</form>";
+            echo $this->_product;
+          }
   private function makeHead($formHead) {
     $header = '<form ';
     if (count($formHead) < 1) {
@@ -50,10 +57,10 @@ class Form {
             $output .= "class = '$value' ";
             break;
           case 'required':
-            $output .= ($value)? 'required' : '';
+            $output .= ($value)? ' required ' : '';
           break;
           case 'autocomplete':
-            $output .= (!$value)? "autocomplete = 'off'" : '';
+            $output .= (!$value)? " autocomplete = 'off'" : '';
             break;
           case 'value':
             $output .= "value = '$value' ";
@@ -68,10 +75,35 @@ class Form {
     }
     return $output;
   }
-  public function genForm($formhead = array(),$inputs = array(),$break = false) {
-    $this->_head =  $this->makeHead($formhead);
-    $this->_body = $this->makeInput($inputs,$break);
-    $this->_product = $this->_head . $this->_body . "</form>";
-    echo $this->_product;
-  }
+
 }
+$usr = new Form(array(
+  'action' => $_SERVER['PHP_SELF'],
+  'method' => 'get'
+),array(
+  array(
+    'name' => 'usrname',
+    'id' => 'usrname',
+    'type' => 'text',
+    'placeholder' => 'username here',
+    'required' => true,
+    'autocomplete' => false
+  ),
+  array(
+    'name' => 'password',
+    'id' => 'password',
+    'type' => 'text',
+    'placeholder' => 'password here',
+    'required' => true,
+    'autocomplete' => false
+  ),  array(
+      'name' => 'submit',
+      'id' => 'submit',
+      'type' => 'submit',
+      'placeholder' => 'Submit',
+      'required' => true,
+      'autocomplete' => false
+    )
+), true);
+
+?>

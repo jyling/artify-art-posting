@@ -16,10 +16,11 @@ if (Input::exist()) {
   $valid->check($_POST,array(
     'usrname' => array(
       'required' => true,
-      'min' => 2,
+      'min' => 3,
       'max' => 30,
       'unique' => 'usr',
-      'name' => 'username'
+      'name' => 'username',
+      'startWithChar' => true
     ),
     'password' => array(
       'required' => true,
@@ -58,20 +59,18 @@ if (Input::exist()) {
   if ($valid->passed() && $captcha['success']) {
     $score = $captcha['score'];
     $user = new User();
-    $salt = PassHasher::salty(32);
     try {
       $user->addUser(array(
         'usrname' => Validate::sanitize(Input::get('usrname')),
         'fname' => Validate::sanitize(Input::get('fname')),
         'lname' => Validate::sanitize(Input::get('lname')),
-        'passhash' => PassHasher::getHash(Validate::sanitize(Input::get('password',true)),$salt),
-        'salt' => $salt,
+        'passhash' => PassHasher::getHash(Validate::sanitize(Input::get('password',true))),
         'joined' => date('Y-m-d H:i:s'),
         'user_score' => $score,
         'accountType' => 1
       ));
       Session::flash('success',"Sign Up success, you may now login");
-      header('Location: index.php');
+      Page::redirect('index.php');
     } catch (\Exception $e) {
       die($e->getMessage());
     }

@@ -6,8 +6,9 @@ $username = '';
 $pass = '';
 Page::pageFile();
 if (Session::isLogin()) {
-  header('Location: index.php');
+  Page::redirect('index.php');
 }
+
 else {
 if (Input::exist()) {
   $valid = new Validate();
@@ -31,18 +32,13 @@ if (Input::exist()) {
       Session::put('usrname',  $user->getData()->usrname);
       Session::put('id',$user->getData()->id);
       Session::put('fullname',$user->getData()->fname . ' ' . $user->getData()->lname);
-      header('Location: index.php');
+      Page::redirect('index.php');
     }
     else {
       echo "<div class='thin-alert alert alert-danger alert-dismissible fade show'>Username/Password is incorrect</div>";
     }
   }
   else {
-    Page::redirect('index.php', array(
-      'testing' => true,
-      'testing1' => 'this',
-      'testing2' => 'that'
-    ));
     foreach ($valid->getError() as $key => $val) {
       $a = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
       switch ($key) {
@@ -68,7 +64,7 @@ if (Input::exist()) {
      <div class="form-group">
        <label for="usrname">Username</label>
        <?php echo $username ?>
-       <input class="form-control form-control" type="text" name="usrname" id="usrname" value="Jacks" autocomplete="off">
+       <input class="form-control form-control" type="text" name="usrname" id="usrname" value="Jack Desu" autocomplete="off">
      </div>
      <div class="form-group">
        <label for="password">Password</label>

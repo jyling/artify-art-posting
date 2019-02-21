@@ -41,3 +41,43 @@ endl;
 </div>
 </body>
 </html>
+
+<form class="" action="" method="post"  enctype="multipart/form-data">
+  <input type="file" name="image" value="">
+  <input type="submit" name="" value="">
+</form>
+<?php
+  if ($_SERVER['REQUEST_METHOD']=='POST') {
+    $n = new Image();
+    $n->getFile('image',array(
+      'minSize' => 20,
+      'maxSize' => $n->Mb2byte(4),
+      'minWidth' => 20,
+      'minHeight' => 20,
+      'maxHeight' => 5000,
+      'maxWidth' => 5000,
+      'type' => array(
+        'png',
+        'jpeg',
+        'jpg',
+        'svg',
+      ),
+    ));
+    //get file receive 2 argument where first one is the name of the image and
+    //another one is the rules of the image, such as the width, height, size and type
+    if ($n->getPassed()) { //check if the image has passed all the requirement
+      echo "Valid<br>";
+      echo $n->addToPath(array('Samuel Ling')); 
+      //first argument is the hirache of the image 
+      //when the first argument is true it should return the path of the image on addToPath function
+      //the path will need to be stored into the database
+    }
+    else {
+      echo "Invalid";
+      $n->printErr();
+    }
+  }
+
+
+
+ ?>

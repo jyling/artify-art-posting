@@ -1,0 +1,28 @@
+Validate :
+	startWithChar
+reg.php :
+	- increased the min character 	  for the username
+	- username now cant have 	  numbers in their first name
+	- removed the manual salt for 	  password and use the one 	  thats included with php
+	- used Page class when 	  switching the header of the 	  php ("fixed header already 	  sent")
+index.php
+	- added upload image for 	  testing purposes (to be 	  removed)
+viewPost.php
+	- added the template of the 	  page(non-functional)
+Image.php
+	- added Image class to allow 		  user to upload image
+Page.php
+	- updated the function for 	  the get page name so that 	  it's compatible for the new 	  server configuration
+	- updated the navigation 	  function to only show 	  specific page on the 	  navigation when user is 	  logged in
+	- updated the redirect 	  function to fix the "header 	  already send" error
+init.php
+	- updated website name
+	- updated navigation items 	  	  stucture
+	- added X-FRAME-OPTION for 	  security reason
+Message.php
+	- added echo for the Reader 	  class
+Reader.php
+	- added a function to read 	  	  the upper directory
+	- removed ehco on modify 	  function
+att.php
+	- testing X-FRAME-OPTION 	  attack

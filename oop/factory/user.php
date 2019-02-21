@@ -51,7 +51,7 @@ class User {
       return $this->_data;
   }
   public function verifyPass($pass,$passhash) {
-    $passSalt = $pass.$this->_data->salt;
+    $passSalt = $pass;
     if (password_verify($passSalt,$passhash)) {
       return true;
     }

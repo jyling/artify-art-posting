@@ -24,7 +24,7 @@ class Message {
         $name = (strlen($fname) > 16)? $this->StringOverflow($fname) : $fname;
         $read = new Reader();
         $read->read($template);
-        $read->modify(array(
+        echo $read->modify(array(
           '$name' => $name,
           '$fname' => $fname,
           '$id' => $message_id,

@@ -4,9 +4,10 @@ class Page{
   public static function redirect($target, $params = array()){
     $url = $target . self::urlGetMaker($params);
     header("Location: $url");
+    ob_end_flush();
     exit();
   }
-  
+
   public static function urlGetMaker($params = array()){
     $url = '';
     $counter = 0;
@@ -41,8 +42,11 @@ class Page{
   }
 
   public static function getPageName(){
-    $a = array_flip(Settings::get('nav>items'));
-    $pageName = $a[self::pageFile()];
+    $a = Settings::get('nav>items');
+    foreach ($a as $key => $value) {
+      $lookup[$value['file']] = $key;
+    }
+      $pageName = $lookup[lcfirst(self::pageFile())];
     return $pageName;
 
   }
@@ -53,13 +57,32 @@ class Page{
   public static function addNav() {
     $path = new Settings();
     $content = $path->get('nav>items');
+    $user = new User();
     echo "<nav class='navbar navbar-expand-sm bg-dark navbar-dark'>";
     echo "<ul class='navbar-nav'> <a class='navbar-brand' href='" . $path->get('nav>brand>url') . "'>".$path->get('nav>brand>title')."</a>";
     foreach ($content as $key => $link) {
-      if (self::pageFile() !== $link) {
+      if (isset($link['showOnLogin'])) {
+        if (
+          (!$user->getLogin()
+          &&
+          $link['showOnLogin'] == 1)
+          ||
+          ($user->getLogin()
+          &&
+          $link['showOnLogin'] == 0)) {
+          continue;
+        }
+      }
+      elseif(isset($link['visible'])) {
+        if ($link['visible'] == false) {
+          continue;
+        }
+      }
+
+      if (self::pageFile() !== $link['file']) {
         echo <<<nav
         <li class="nav-item">
-        <a class="nav-link" href="$link">$key</a>
+        <a class="nav-link" href="$link[file]">$key</a>
         </li>
 nav;
       }

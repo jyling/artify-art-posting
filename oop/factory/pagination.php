@@ -48,16 +48,16 @@ class Pagination{
   public function generateTags(){
     $content = "<nav aria-label='Page navigation example'><ul class='pagination justify-content-center'>";
     if ($this->_startPage < $this->_currentPage) {
-      $content .= "<li class='page-item'><a href='$_SERVER[PHP_SELF]?page=1' class='page-link'>First</a></li>";
+      $content .= "<li class='pagination-prev'><a href='$_SERVER[PHP_SELF]?page=1' class='page-link'>First</a></li>";
     }
     else {
-      $content .= "<li class='page-item disabled' tabindex='-1'><a href='#' class='page-link' disabled>First</a></li>";
+      $content .= "<li class='pagination-prev disabled' tabindex='-1'><a href='#' class='page-link' disabled>First</a></li>";
     }
     if ($this->_before >= 1) {
-      $content .= "<li class='page-item'><a href='$_SERVER[PHP_SELF]?page=$this->_before' class='page-link'><</a></li>";
+      $content .= "<li class='pagination-prev'><a href='$_SERVER[PHP_SELF]?page=$this->_before' class='page-link'><</a></li>";
     }
     else {
-      $content .= "<li class='page-item disabled' tabindex='-1'><a href='#' class='page-link' disabled><</a></li>";
+      $content .= "<li class='pagination-prev disabled' tabindex='-1'><a href='#' class='page-link' disabled><</a></li>";
     }
     for($i=$this->_startPage; $i<=$this->_endPage; $i++) {
       $output = ($i < 10)? $output = "0" . $i : $i;
@@ -69,16 +69,16 @@ class Pagination{
       }
     }
     if ($this->_after <= $this->_totalPage) {
-        $content .= "<li class='page-item'><a href='$_SERVER[PHP_SELF]?page=$this->_after' class='page-link'>></a></li>";
+        $content .= "<li class='right-etc pagination-next'><a href='$_SERVER[PHP_SELF]?page=$this->_after' class='page-link'>></a></li>";
     }
     else {
-      $content .= "<li class='page-item disabled'><a href='#' class='page-link' disabled>></a></li>";
+      $content .= "<li class='right-etc pagination-next disabled'><a href='#' class='page-link' disabled>></a></li>";
     }
     if ($this->_currentPage < $this->_totalPage) {
-      $content .= "<li class='page-item'><a href='$_SERVER[PHP_SELF]?page=$this->_totalPage' class='page-link'>Last</a></li>";
+      $content .= "<li class='right-etc pagination-next'><a href='$_SERVER[PHP_SELF]?page=$this->_totalPage' class='page-link'>Last</a></li>";
     }
     else {
-      $content .= "<li class='page-item disabled' tabindex='-1'><a href='#' class='page-link' disabled>Last</a></li>";
+      $content .= "<li class='right-etc pagination-next disabled' tabindex='-1'><a href='#' class='page-link' disabled>Last</a></li>";
     }
     return $content . "</ul><br><div class='marg0 text-center'> $this->_currentPage/$this->_totalPage Pages</div></nav>";
   }

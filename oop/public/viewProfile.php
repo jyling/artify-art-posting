@@ -7,6 +7,7 @@ Page::addNav();
     <div class="box text-center">
             <img class='img-thumbnail mt-sm-2' src="https://placeimg.com/129/129/any" alt="">
             <h1 id='profile-usrname'>Username</h1>
+            <button class="btn btn-primary m-sm-2">Follow</button>
             <button class="btn btn-primary m-sm-2"  data-toggle="modal" data-target="#areYouSure">Report</button>
             <button class="btn btn-info m-sm-2"  data-toggle="modal" data-target="#done">Edit</button>
             <button class="btn btn-warning m-sm-2">Make Mod</button>
@@ -126,3 +127,4 @@ Page::addNav();
 
         </div>
 </div>
+<?php Page::addFoot(); ?>

@@ -35,11 +35,12 @@ class Page{
 
   public static function addFoot() {
     $read = new Reader();
-    $read->read('tail.txt');
+    $read->read('footer.txt');
     if ($read->success()) {
       echo $read->modify();
     }
   }
+
 
   public static function getPageName(){
     $a = Settings::get('nav>items');

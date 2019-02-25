@@ -42,6 +42,7 @@ Page::addNav();
   </div>
 
 </div>
+
 <?php
 Page::addFoot();
 ?>

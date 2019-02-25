@@ -9,7 +9,7 @@ Page::addNav();
         <h1 class='text-center mb-sm-4'>Apply to become artist</h1>
         <textarea class='form-control' name="" id="" cols="30" rows="10"></textarea>
         <center>
-            <input class='mt-sm-3' name='images' type="file">
+                <input class='mt-sm-3' name='images' type="file">
             <div id="apply-image" class='mt-sm-3'>
                 <table>
                     <tr>
@@ -24,3 +24,4 @@ Page::addNav();
         <input class='btn btn-block btn-primary mt-sm-2' type="submit" value='Submit'>
     </form>
 </div>
+<?php Page::addFoot(); ?>

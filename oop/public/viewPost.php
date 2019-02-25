@@ -12,7 +12,7 @@ Page::addNav();
 
     <div class="container text-center">
         <h1 class='view-post-title'>Title : My First Photograph</h1>
-        <p class='font-italic'>Artist : <a href="">Jack Desu</a></p>
+        <p class='font-italic'>Artist : <a href="">Jack Desu (0 followers)</a> <button class='btn btn-primary ml-sm-2'>Follow</button></p>
         <p class='font-italic'>Catergory : <a href="">Photography</a></p>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
@@ -58,8 +58,7 @@ Page::addNav();
 
     </div>
     
-<?
-
-
+<?php
 
 Page::addFoot();
+?>

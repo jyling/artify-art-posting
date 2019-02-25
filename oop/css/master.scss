@@ -15,6 +15,14 @@
   width: 100%;
 }
 
+body {
+  height: 100vh;
+}
+
+.foot-dark {
+  background: #292b2c;
+}
+
 .post-img-content {
   object-fit: contain;
   transition: 350ms;

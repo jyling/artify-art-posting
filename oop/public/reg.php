@@ -150,5 +150,4 @@ if (Input::exist()) {
     <button class='btn btn-primary' type="submit" name="submit">Register</button>
   </form>
 </div>
-</body>
-</html>
+<?php Page::addFoot(); ?>

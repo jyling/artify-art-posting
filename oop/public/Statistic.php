@@ -245,3 +245,4 @@ Page::addNav();
                 </tr>
             </table>
         </div>
+<?php Page::addFoot(); ?>

@@ -94,4 +94,5 @@ else {
         <input class="btn btn-primary" value="Change" name="sumit" type="submit">
     </form>
 </div>
+</div>  
 <?php Page::addFoot(); ?>

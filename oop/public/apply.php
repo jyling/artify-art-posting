@@ -25,3 +25,4 @@ Page::addNav();
             <input class='btn btn-primary btn-block' type="button" value="Promote">
             <input class='btn btn-danger btn-block' type="button" value="Dismiss">
         </div>
+<?php Page::addFoot(); ?>

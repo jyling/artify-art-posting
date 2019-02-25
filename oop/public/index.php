@@ -34,6 +34,4 @@ endl;
   $pag = new Pagination($msg->totalPage());
    ?>
 </div>
-</body>
-</html>
-
+<?php Page::addFoot(); ?>

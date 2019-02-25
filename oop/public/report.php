@@ -22,3 +22,5 @@ $string = 'username';
 </div>
 </form>
 </div>
+
+<?php Page::addFoot(); ?>

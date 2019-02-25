@@ -10,8 +10,8 @@ class Message {
       $this->_limit = $terms['limit'];
     }
   }
-  public function StringOverflow($input){
-    return substr($input,0,16 - 3) . '...';
+  public function StringOverflow($input,$char = 16){
+    return substr($input,0,$char - 3) . '...';
   }
   public function generateMsg($template = 'messagebox.txt') {
     if (!empty($this->_output)) {
@@ -19,7 +19,7 @@ class Message {
       echo "<div class='card-deck'>";
       foreach ($msgs as $msg) {
         $message_id = $msg->message_id;
-        $msg_content = $msg->msg;
+        $msg_content = (strlen($msg->msg) > 50)? $this->StringOverflow($msg->msg,50) : $msg->msg;
         $fname = $msg->usrname;
         $name = (strlen($fname) > 16)? $this->StringOverflow($fname) : $fname;
         $read = new Reader();

@@ -20,3 +20,4 @@ function reloadImage(tag){
     reader.readAsDataURL(tag.files[0]);
   }
 }
+

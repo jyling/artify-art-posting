@@ -23,7 +23,21 @@
 .post-button {
   z-index: 1;
 }
+#apply-image {
+  width: 800px;
+  height: 800px;
+  margin: 0 auto;
+}
 
+#apply-image > img {
+  float: left;
+  border: 2px solid black;
+  width: 45%;
+  margin: 1.66%;
+}
+#profile-usrname {
+  background: #ddd
+}
 .view-post-img {
   padding: 5px;
   margin: auto;

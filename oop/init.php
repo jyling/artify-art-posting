@@ -23,6 +23,9 @@ $a['nav']['items'] = array(
   'Home' => array(
     'file' => 'index.php'
   ),
+  'Catergory' => array(
+    'file' => 'category.php',
+  ),
   'Create New Post' => array(
     'file' => 'post.php',
     'showOnLogin' => true
@@ -47,10 +50,30 @@ $a['nav']['items'] = array(
     'file' => 'viewPost.php',
     'visible' => false
   ),
+  'Profile' => array(
+    'file' => 'viewProfile.php',
+    'showOnLogin' => true
+  ),
+  'Report' => array(
+    'file' => 'report.php',
+    'visible' => false
+  ),
+  'Statistic' => array(
+    'file' => 'statistic.php',
+    'showOnLogin' => true
+  ),
+  'Apply' => array(
+    'file' => 'apply.php',
+    'showOnLogin' => true
+  ),
+  'Apply Artist' => array(
+    'file' => 'applyArtist.php',
+    'visible' => false
+  ),
 );
 
-$a['reader'] = 'factory/htmlSnippets/';
-$a['css']['source'] = 'css/master.css';
+$a['reader'] = '../factory/htmlSnippets/';
+$a['css']['source'] = '../css/master.css';
 
 
 $GLOBALS['settings'] = $a;

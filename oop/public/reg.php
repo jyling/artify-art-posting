@@ -1,12 +1,12 @@
 <?php
-require_once 'init.php';
+require_once '../init.php';
 Page::addHead();
 Page::addNav();
 $username = '';
 $pass = '';
 $pass1 = '';
-$fname = '';
-$lname = '';
+$nickname = '';
+$email = '';
 if (Session::isLogin()) {
   header('Location: index.php');
 }
@@ -121,6 +121,12 @@ if (Input::exist()) {
       <input class="form-control form-control-sm" type="text" name="usrname" id="usrname" value="<?php echo Validate::sanitize(Input::get('usrname',true)); ?>" autocomplete="off">
     </div>
     <div class="form-group">
+      <label for="fname">Nickname</label>
+    <?php echo $nickname ?>
+      <small id="nickname" class="form-text text-muted"><i>Name that people will see</i></small>
+      <input class="form-control form-control-sm" type="text" name="nickname" id="nickname" value="<?php echo Validate::sanitize(Input::get('nickname',true)); ?>" autocomplete="off">
+    </div>
+    <div class="form-group">
       <label for="password">Password</label>
       <?php echo $pass ?>
       <small id="Helppassword" class="form-text text-muted"><i>Your password <strong>must be longer than 6 character</strong> and <strong> must contain letters and numbers</strong></i></small>
@@ -129,15 +135,14 @@ if (Input::exist()) {
     <div class="form-group">
       <label for="second_password">Password Re-enter</label>
       <?php echo $pass1 ?>
+      <small id="Helppassword1" class="form-text text-muted"><i>Re-Type the password</i></small>
       <input class="form-control form-control-sm" type="password" name="second_password" id="second_password" value="" autocomplete="off">
     </div>
     <div class="form-group">
-      <label for="fname">FirstName</label>
-      <?php echo $fname ?>
-      <input class="form-control form-control-sm" type="text" name="fname" id="fname" value="<?php echo Validate::sanitize(Input::get('fname',true)); ?>" autocomplete="off"><br>
-      <label for="lname">LastName</label>
-      <?php echo $lname ?>
-      <input class="form-control form-control-sm" type="text" name="lname" id="lname" value="<?php echo Validate::sanitize(Input::get('lname',true)); ?>" autocomplete="off"><br>
+      <label for="password">Email</label>
+      <?php echo $email ?>
+      <small id="email" class="form-text text-muted"><i>Enter your Email</i></small>
+      <input class="form-control form-control-sm" type="email" name="password" id="password" value="" autocomplete="off">
     </div>
     <div class="form-group">
       <?php Captcha::add() ?>

@@ -1,5 +1,5 @@
 <?php
-require_once('init.php');
+require_once('../init.php');
 Page::addHead();
 Page::addNav();
 
@@ -8,7 +8,7 @@ Page::addNav();
 
     <!-- <img src="Image/Samuel Ling/0f78e7e09ee4f0b3791a36ec96919da31d9631ecead180b211dbe68af25b3368.jpg" class="view-post-img border rounded img-fluid" alt="" srcset=""> -->
     <!-- <img src="Image/Samuel Ling/a3d1d631a135359ccb69fd0609dae5357fdf3ad536e32dd9e5ae007e695d2b69.jpg" class="view-post-img border rounded img-fluid" alt="" srcset=""> -->
-    <img src="https://placeimg.com/320/1080/any" class="view-post-img border rounded img-fluid" alt="" srcset="">
+    <img src="https://placeimg.com/1920/1080/any" class="view-post-img border rounded img-fluid" alt="" srcset="">
 
     <div class="container text-center">
         <h1 class='view-post-title'>Title : My First Photograph</h1>

@@ -1,5 +1,5 @@
 <?php
-require_once 'init.php';
+require_once '../init.php';
 Page::addHead();
 Page::addNav();
 $fname = '';
@@ -63,14 +63,29 @@ else {
         <h1>Change Profile Information</h1>
       </div>
       <div class="form-group">
-        <label for="usrname">First name</label>
+        <div class=''>
+          <td><img class='img-thumbnail mr-sm-2' src="https://placeimg.com/400/400/any" height='64' width='64'><input type="file"></td>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="usrname">Nickname</label>
         <?php echo $fname ?>
         <input class="form-control form-control" type="text" name="fname" id="fname" value="<?php echo Validate::sanitize($usr->getData()->fname) ?>" autocomplete="off">
       </div>
       <div class="form-group">
-        <label for="usrname">Last name</label>
+        <label for="usrname">Old Password</label>
         <?php echo $lname ?>
         <input class="form-control form-control" type="text" name="lname" id="lname" value="<?php echo Validate::sanitize($usr->getData()->lname) ?>" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="usrname">New Password</label>
+        <?php echo $lname ?>
+        <input class="form-control form-control" type="password" name="lname" id="lname" value="<?php echo Validate::sanitize($usr->getData()->lname) ?>" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="usrname">Re-enter Password</label>
+        <?php echo $lname ?>
+        <input class="form-control form-control" type="password" name="lname" id="lname" value="<?php echo Validate::sanitize($usr->getData()->lname) ?>" autocomplete="off">
       </div>
       <?php
       Captcha::add();

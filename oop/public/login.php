@@ -1,5 +1,5 @@
 <?php
-include_once 'init.php';
+include_once '../init.php';
 Page::addHead();
 Page::addNav();
 $username = '';
@@ -75,9 +75,6 @@ if (Input::exist()) {
      <!-- <div class="form-group"> -->
      <?php Captcha::add() ?>
      <!-- </div> -->
-     </div>
-     <div class="form-group">
-       <input  type="checkbox" name="remember" id="remember" > <label for="remember">Remember me</label>
      </div>
      <div class="form-group">
        <input class="btn btn-primary" type="submit" name="submit" value="Login">

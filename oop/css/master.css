@@ -20,6 +20,11 @@
   -o-transition: 350ms;
   transition: 350ms; }
 
+
+  .profile-img-content {
+    -o-object-fit: contain;
+    object-fit: contain; }
+
 .post-button {
   z-index: 1; }
 .card-img-top {

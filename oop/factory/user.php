@@ -4,14 +4,20 @@ class User {
   private $_db,
           $_data,
           $_isLoggedIn,
-          $_cookieName;
+          $_cookieName,
+          $_roles = array(
+            'normal' => 'Normal Account',
+            'mod' => 'Moderator',
+            'admin' => 'Admin'
+          );
   public function __construct($user = null)
   {
     $this->_cookieName = Settings::get('remberMe>cookie_name');
     $this->_db = DB::run();
-    if (!$user) {
-        $user = Session::get('id');
-        if ($this->find($user)) {
+
+    if ($user == null) {
+        $id = Session::get('id');
+        if ($this->find($id)) {
           $this->_isLoggedIn = true;
         }
     } else {
@@ -22,25 +28,74 @@ class User {
     if (!$this->_db->insert('usr',$params)) {
       throw new \Exception("Error Processing Request");
     }
+    $result = $this->find($params['usrnm']);
+    $this->_db->insert('usr_group',array(
+      'usr_id' => $this->_data->usr_id,
+      'permission' => '
+                        {
+                          "usr": {
+                            "accType" : "normal",
+                            "permission": {
+                              "post": false,
+                              "delete": false,
+                              "ban": false,
+                              "owner": false
+                            }
+                          }
+                        }'
+    ));
+
+  }
+  public function getRole($usr = null) {
+    if ($usr == null) {
+      if(Session::exist('id')) {
+        $id = Session::get('id');      
+        if($this->find($id)){
+          DB::run()->get('usr_group',array('usr_id','=',"$id"));
+          $data = DB::run()->getResult()[0];
+          $role = json_decode($data->permission)->usr->accType;
+          if(array_key_exists($role,$this->_roles)) {
+            return $this->_roles[$role];
+          }
+          else {
+            return 'unknown';
+          }
+          }
+      }
+    }
+    elseif($usr !== null) {
+      if($this->find($usr)){
+        DB::run()->get('usr_group',array('usr_id','=',"$usr"));
+        $data = DB::run()->getResult()[0];
+        $role = json_decode($data->permission)->usr->accType;
+        if(array_key_exists($role,$this->_roles)) {
+          return $this->_roles[$role];
+        }
+        else {
+          return 'unknown';
+        }
+      }
+    }
   }
   public function find($term = null) {
     if (is_numeric($term)) {
-      $data = DB::run()->get('usr', array('id','=',$term));
+      $data = DB::run()->get('usr', array('usr_id','=',$term));
     }
     else {
-      $data = DB::run()->get('usr', array('usrname','=',$term));
+      $data = DB::run()->get('usr', array('usrnm','=',$term));
     }
     if ($data->getCount()) {
       $this->_data = $data->getResult()[0];
       return true;
     }
+    return false;
 
   }
   public function update($params = array(), $id = null){
     if ($id === null && $this->_isLoggedIn === true) {
-      $id = $this->getData()->id;
+      $id = $this->getData()->usr_id;
     }
-    if (!DB::Run()->update('usr',$id,$params)) {
+    if (!DB::Run()->update('usr',array('usr_id' => $id),$params)) {
       throw new Exception('update error');
     }
     else {
@@ -61,7 +116,7 @@ class User {
     $username = Validate::sanitize($usrname);
     $pass = Validate::sanitize($pass);
     if($this->find($usrname)) {
-      $salt = $this->_data->passhash;
+      $salt = $this->_data->pwd;
       if ($this->verifyPass($pass,$salt)) {
         if ($remember) {
           $hash = PassHasher::randHash();
@@ -82,7 +137,29 @@ class User {
     }
     return false;
   }
+  public function getPermission($usr = null){
+    if ($usr == null) {
+      if(Session::exist('id')) {
+        $id = Session::get('id');      
+        if($this->find($id)){
+          DB::run()->get('usr_group',array('usr_id','=',"$id"));
+
+          $data = DB::run()->getResult()[0];
+          return json_decode($data->permission);
+          }
+      }
+
+    }
+    elseif($usr !== null) {
+      if($this->find($usr)){
+        DB::run()->get('usr_group',array('usr_id','=',"$usr"));
+        $data = DB::run()->getResult()[0];
+        return json_decode($data->permission);
+      }
+    }
+  }
   public function getLogin(){
     return $this->_isLoggedIn;
   }
 }
+

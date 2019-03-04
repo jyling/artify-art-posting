@@ -22,12 +22,11 @@ class DB {
 
   }
   public static function Run(){
+
     if (!isset(self::$conn)) { // self is like super in java
       self::$conn = new DB();
     }
-    else {
       return self::$conn;
-    }
   }
   private function conditionGenerator($terms) {
     if (isset($terms['condition'],
@@ -111,7 +110,7 @@ class DB {
     }
     return false;
   }
-  public function update($table,$id,$data = array()){
+  public function update($table,$id = array(),$data = array()){
     $this->_err = false;
     if (count($data)) {
       $values = null;
@@ -124,7 +123,12 @@ class DB {
         }
         $counter++;
       }
-      $sql = "UPDATE `$table` SET $values WHERE `id` = $id";
+      $colname = '';
+      foreach($id as $key => $val){
+        $colname = $key;
+        $id = $val;
+      }
+      $sql = "UPDATE `$table` SET $values WHERE `$colname` = $id";
       if (!$this->query($sql,$data)->error()) {
         return true;
       }

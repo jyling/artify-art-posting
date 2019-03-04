@@ -4,7 +4,7 @@ Page::addHead();
 Page::addNav();
 $id = null;
 
-
+if(!Session::exist('id') && !Input::get('user')){Page::redirect('index.php');}
 
 if(Input::has('user')) {
   if (Input::get('user') == Session::get('id')) {
@@ -26,7 +26,7 @@ $permission = $user->getPermission($id)->usr->permission;
 
 <div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
     <div class="box text-center">
-            <img class='img-thumbnail mt-sm-2' src="https://placeimg.com/129/129/any" alt="">
+            <img class='img-thumbnail mt-sm-2' src="<?php echo $detail->profileImgPath ?>" alt="">
             <h1 id='profile-usrname'><?php echo $detail->usrnm . "  (  $detail->nickname  )"?></h1>
             <?php 
             if(($permission->post == true) && (Input::get('user') != Session::get('id')) && (Input::has('user'))) {
@@ -36,8 +36,7 @@ $permission = $user->getPermission($id)->usr->permission;
             if(Input::has('user') && (Input::get('user') != Session::get('id'))) {
               echo "<button class='btn btn-primary m-sm-2'>Report</button>";
             }
-
-            if(!Input::exist('user') && (Input::get('user') == Session::get('id'))) {
+            if(!Input::exist('user')) {
             echo "<a class='btn btn-info m-sm-2' href='changeInfo.php' role='button' aria-pressed='true'>Edit</a>";
             }
 

@@ -8,6 +8,9 @@ Page::pageFile();
 if (Session::isLogin()) {
   Page::redirect('index.php');
 }
+if (Session::exist('login')) {
+  Page::alertUser(Session::flash('login'));
+}
 
 else {
 if (Input::exist()) {

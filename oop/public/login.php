@@ -28,10 +28,9 @@ if (Input::exist()) {
     $login = $user->login(Input::get('usrname'),Input::get('password'),$remember);
     if ($login) {
       $user = new User();
-      $data = $user->find(Input::get('usrname'))[0];
-      Session::put('usrname',  $user->getData()->usrname);
-      Session::put('id',$user->getData()->id);
-      Session::put('fullname',$user->getData()->fname . ' ' . $user->getData()->lname);
+      $data = $user->find(Input::get('usrname'));
+      Session::put('usrname',  $user->getData()->usrnm);
+      Session::put('id',$user->getData()->usr_id);
       Page::redirect('index.php');
     }
     else {

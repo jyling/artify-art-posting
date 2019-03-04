@@ -41,7 +41,7 @@ class Validate {
                     }
             break;
             case 'charOnly' :
-            if (preg_match('/[^a-zA-Zd]/i', $value))
+            if (!preg_match('/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/', $value))
               {
                 $this->addError("<strong>$rules[name]</strong> can only have english letters",$item);
               }

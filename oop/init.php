@@ -4,7 +4,7 @@ session_start();
 $a = NULL;
 $a['sql']['host'] = 'localhost';
 $a['sql']['pwd'] = '';
-$a['sql']['dbnm'] = 'fyptestground';
+$a['sql']['dbnm'] = 'artify';
 $a['sql']['dbusr'] = 'root';
 
 $a['remberMe']['cookie_name'] = 'BEiWcC';
@@ -40,7 +40,7 @@ $a['nav']['items'] = array(
   ),
   'Change Profile Info' => array(
     'file' => 'changeInfo.php',
-    'showOnLogin' => true
+    'visible' => false
   ),
   'Error' => array(
     'file' => '404.php',
@@ -70,6 +70,10 @@ $a['nav']['items'] = array(
     'file' => 'applyArtist.php',
     'visible' => false
   ),
+  'Logout' => array(
+    'file' => '../logout.php',
+    'showOnLogin' => true
+  ),
 );
 
 $a['reader'] = '../factory/htmlSnippets/';
@@ -94,6 +98,7 @@ spl_autoload_register(function($class){
 });
 ob_start();
 header('X-Frame-Options: DENY');
+// die(var_dump($_SESSION));
 
 // if (Cookie::check(Settings::get('remberMe>cookie_name')) && !Session::isLogin()) {
 //   $hash = Cookie::get(Settings::get('remberMe>cookie_name'));

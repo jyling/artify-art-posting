@@ -30,9 +30,9 @@ Page::addNav();
         </div>
       </div>
       <div class="post-img form-group text-center col-md-4">
-        <input class="form-control" style="margin: 7%; margin-left: 0%;" onchange="reloadImage(this)" type="file" name="" value="">
+        <input class="form-control" style="margin: 7%; margin-left: 0%;" onchange="reloadImage(this ,true)" type="file" name="" value="">
           <div class="post-img-container text-center col-md-4">
-            <img class="post-img-content item-center-block img-thumbnail post-block" style="z-index: 2;" onerror="this.src='../asset/placeholder.png';" alt="Your Image Goes Here" src="#">
+            <img class="post-img-content img-target item-center-block img-thumbnail post-block" style="z-index: 2;" onerror="this.src='../asset/placeholder.png';" alt="Your Image Goes Here" src="#">
           </div>
       </div>
     </div>

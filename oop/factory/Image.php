@@ -14,9 +14,12 @@ class Image {
       if ($_FILES[$name]['error'] !== 1) {
         $this->_name = $_FILES[$name]['name'];
         $this->_imgSize = $_FILES[$name]['size'];
-        $this->_tmpName = $_FILES[$name]['tmp_name'];
-        $this->_imgExt = strtolower(pathinfo($this->_name,PATHINFO_EXTENSION));
-        list($this->_imageWidth, $this->_imageHeight)  = getimagesize(($this->_tmpName));
+        if(empty($_FILES[$name]['tmp_name'])) {$this->addErr('The Image Should Not Be Empty');}
+        else {
+          $this->_tmpName = $_FILES[$name]['tmp_name'];
+          $this->_imgExt = strtolower(pathinfo($this->_name,PATHINFO_EXTENSION));
+          list($this->_imageWidth, $this->_imageHeight)  = getimagesize(($this->_tmpName));
+        }
         $this->validate($rule); //calls the validate
       }
       else {
@@ -25,7 +28,7 @@ class Image {
       }
     }
     public function addErr($errors = ''){
-      $this->_err[] = $errors;
+      $this->_err['image'] = $errors;
     }
     public function Mb2byte($int = 0) {
       return (1000000 * $int);
@@ -33,21 +36,31 @@ class Image {
     public function getPassed() {
       return (count($this->_err) > 0)? false : true;
     }
-    public function printErr(){
-      print_r($this->_err);
+    public function getError(){
+      return $this->_err;
     }
     //addToDatabase receive 1 argument, where the path will
     //receive the path of the image
+    public function countImage($path){
+      $directory = $path;
+      $filecount = 0;
+      $files = glob($directory . "*");
+      if ($files){
+      $filecount = count($files); 
+      }
+      return $filecount;
+    }
     public function addToPath($path = array()) {
       $file = '';
         //path of the image
-        $file = dirname(__FILE__, 2).'/'. 'image/' . $this->pathGen($path);
+
+        $file = '../'. 'image/' . $this->pathGen($path);
         if (!file_exists($file)) {
             mkdir($file);
         }
-        $file = $file . $this->_name;
+        $filename = $this->countImage($file) + 1;
+        $file = $file . $filename . '.' . $this->_imgExt;
         file_put_contents($file, file_get_contents($this->_tmpName));
-        echo "file added";
         return $file; //return the path of the image
     }
     public function pathGen($dir = array()){

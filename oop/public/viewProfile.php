@@ -2,64 +2,67 @@
 require_once '../init.php';
 Page::addHead();
 Page::addNav();
+$id = null;
+
+
+
+if(Input::has('user')) {
+  if (Input::get('user') == Session::get('id')) {
+    Page::redirect($_SERVER['PHP_SELF']);
+  }
+  $id = Input::get('user');
+  $temp = new User($id);
+  if (!$temp->find($id)) {
+    Page::redirect($_SERVER['PHP_SELF']);
+  }
+}
+else {
+  $id = Session::get('id');
+}
+$user = new User($id);
+$detail = $user->getData();
+$permission = $user->getPermission($id)->usr->permission;
 ?>
+
 <div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
     <div class="box text-center">
             <img class='img-thumbnail mt-sm-2' src="https://placeimg.com/129/129/any" alt="">
-            <h1 id='profile-usrname'>Username</h1>
-            <button class="btn btn-primary m-sm-2">Follow</button>
-            <button class="btn btn-primary m-sm-2"  data-toggle="modal" data-target="#areYouSure">Report</button>
-            <button class="btn btn-info m-sm-2"  data-toggle="modal" data-target="#done">Edit</button>
-            <button class="btn btn-warning m-sm-2">Make Mod</button>
-            <button class="btn btn-danger m-sm-2">Ban</button>
+            <h1 id='profile-usrname'><?php echo $detail->usrnm . "  (  $detail->nickname  )"?></h1>
+            <?php 
+            if(($permission->post == true) && (Input::get('user') != Session::get('id')) && (Input::has('user'))) {
+              echo "<button class='btn btn-primary m-sm-2'>Follow</button>";
+            }
+
+            if(Input::has('user') && (Input::get('user') != Session::get('id'))) {
+              echo "<button class='btn btn-primary m-sm-2'>Report</button>";
+            }
+
+            if(!Input::exist('user') && (Input::get('user') == Session::get('id'))) {
+            echo "<a class='btn btn-info m-sm-2' href='changeInfo.php' role='button' aria-pressed='true'>Edit</a>";
+            }
+
+            if ($permission->owner) {
+              echo "<button class='btn btn-warning m-sm-2'>Make Mod</button>";
+            }
+            
+            if($permission->ban) {
+              echo "<button class='btn btn-danger m-sm-2'>Ban</button>";
+            }
+            ?>
 
     </div>
 </div>
-<div class="modal fade" id="done" tabindex="-1" role="dialog" aria-labelledby="doneModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="doneModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        XXX has been done
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal">Ok</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="areYouSure" tabindex="-1" role="dialog" aria-labelledby="areYouSureModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="areYouSureModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Are You Sure You want to do XXX ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal">Yes</button>
-        <button type="button" class="btn btn-danger">No</button>
-      </div>
-    </div>
-  </div>
-</div>
+<?php 
+$role = $user->getRole($id);
 
+echo <<<end
 <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
-    <h1 class='m-sm-2 text-center'>Normal Account</h1>
+    <h1 class='m-sm-2 text-center'>$role</h1>
 </div>
+end;
 
-
+?>
 
 <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
     <div class="box text-center m-sm-5 mt-sm-2">
@@ -95,7 +98,7 @@ Page::addNav();
 <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
     <h3 class='view-post-comment mt-sm-3 text-muted'>Comment</h3>
         <div class="container">
-            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="get">
+            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
                     <div class="form-group">
                         <input class='form-control' name='comment'  type="text">
                     </div>

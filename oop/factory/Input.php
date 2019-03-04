@@ -47,6 +47,12 @@ class Input {
       return false;
     }
   }
+  public static function hasFile($term) {
+    if (isset($_Files[$term])) {
+      return true;
+    }
+    return false;
+  }
 
 
 }

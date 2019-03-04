@@ -1,3 +1,4 @@
+
 <?php
 class Validate {
   private $_passed = false,
@@ -59,6 +60,11 @@ class Validate {
                 $this->addError("<strong>$rules[name]</strong> must starts with a letters",$item);
               }
             }
+            break;
+            case 'regex':
+              if (!preg_match($rules['regex'],$value)) {
+                $this->addError("<strong>$rules[name]</strong> must be a valid format",$item);
+              }
           }
         }
 

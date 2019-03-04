@@ -28,7 +28,8 @@ $a['nav']['items'] = array(
   ),
   'Create New Post' => array(
     'file' => 'post.php',
-    'showOnLogin' => true
+    'showOnLogin' => true,
+    'RequireLogin' => true
   ),
   'Login' => array(
     'file' => 'login.php',
@@ -40,7 +41,9 @@ $a['nav']['items'] = array(
   ),
   'Change Profile Info' => array(
     'file' => 'changeInfo.php',
-    'visible' => false
+    'visible' => false,
+    'RequireLogin' => true
+
   ),
   'Error' => array(
     'file' => '404.php',
@@ -56,19 +59,25 @@ $a['nav']['items'] = array(
   ),
   'Report' => array(
     'file' => 'report.php',
-    'visible' => false
+    'visible' => false,
+    'RequireLogin' => true
+    
   ),
   'Statistic' => array(
     'file' => 'statistic.php',
-    'showOnLogin' => true
+    'showOnLogin' => true,
+    'RequireLogin' => true
+
   ),
   'Apply' => array(
     'file' => 'apply.php',
-    'showOnLogin' => true
+    'showOnLogin' => true,
+    'RequireLogin' => true
   ),
   'Apply Artist' => array(
     'file' => 'applyArtist.php',
-    'visible' => false
+    'visible' => false,
+    'RequireLogin' => true
   ),
   'Logout' => array(
     'file' => '../logout.php',
@@ -97,15 +106,62 @@ spl_autoload_register(function($class){
   require_once "factory/$class.php";
 });
 ob_start();
+Page::autoKick();
+if (Session::exist('modal')) {
+  die( Session::flash('modal') );
+}
+
 header('X-Frame-Options: DENY');
+
+
+//     if ($_SERVER['REQUEST_METHOD']=='POST') {
+//       $n = new Image();
+//       $n->getFile('image',array(
+//         'minSize' => 20,
+//         'maxSize' => $n->Mb2byte(4),
+//         'minWidth' => 20,
+//         'minHeight' => 20,
+//         'maxHeight' => 5000,
+//         'maxWidth' => 5000,
+//         'type' => array(
+//           'png',
+//           'jpeg',
+//           'jpg',
+//           'svg',
+//         ),
+//       ));
+//       //get file receive 2 argument where first one is the name of the image and
+//       //another one is the rules of the image, such as the width, height, size and type
+//       if ($n->getPassed()) { //check if the image has passed all the requirement
+//         echo "Valid<br>";
+//         echo $n->addToPath(array('Profile', 'default')); 
+//         //first argument is the hirache of the image 
+//         //when the first argument is true it should return the path of the image on addToPath function
+//         //the path will need to be stored into the database
+//       }
+//       else {
+//         echo "Invalid";
+//         $n->printErr();
+//       }
+//     }
+  // ?>
+<!-- <form class="" action="" method="post"  enctype="multipart/form-data">
+  <input type="file" name="image" value="">
+  <input type="submit" name="" value="">
+</form> -->
+<?php
+
+
+// die();
 // die(var_dump($_SESSION));
 
 // if (Cookie::check(Settings::get('remberMe>cookie_name')) && !Session::isLogin()) {
-//   $hash = Cookie::get(Settings::get('remberMe>cookie_name'));
-//   $hashCheck = DB::run()->get('session',array('hash','=',$hash));
-//
-//   // if ($hashCheck->getCount()) {
-//   //   $user = new User($hashCheck->getData()->usr_id);
-//   //   $
-//   // }
-// }
+  //   $hash = Cookie::get(Settings::get('remberMe>cookie_name'));
+  //   $hashCheck = DB::run()->get('session',array('hash','=',$hash));
+  //
+  //   // if ($hashCheck->getCount()) {
+    //   //   $user = new User($hashCheck->getData()->usr_id);
+    //   //   $
+    //   // }
+    // }
+    

@@ -51,6 +51,20 @@ class Page{
     return $pageName;
 
   }
+  public static function autoKick(){
+    $a = Settings::get('nav>items');
+    foreach ($a as $key => $value) {
+      $lookup[$value['file']] = $key;
+    }
+      $pageName = $lookup[lcfirst(self::pageFile())];
+      if(isset($a[$pageName]['RequireLogin'])) {
+        if($a[$pageName]['RequireLogin'] == true && !Session::exist('id')) {
+          Session::flash('login',"Please Login First");
+          Page::redirect('login.php');
+        }
+      }
+
+  }
   public static function pageFile(){
     return basename($_SERVER['SCRIPT_NAME']);
   }

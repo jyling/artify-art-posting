@@ -36,7 +36,17 @@ class Input {
         return '';
       }
     }
-
+  public static function empty($term) {
+    if (empty($_POST[$term])) {
+      return true;
+    }
+    elseif (empty($_GET[$term])) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
 
 }

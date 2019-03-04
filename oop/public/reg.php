@@ -79,7 +79,7 @@ if (Input::exist()) {
     if ($captcha['success'] === false) {
       echo "<div class='thin-alert alert alert-warning alert-dismissible fade show'>" . $captcha['error-codes'][0]. "</div>";
     }
-    die(print_r($valid->getError()));
+    
     foreach ($valid->getError() as $key => $val) {
       $a = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
       switch ($key) {

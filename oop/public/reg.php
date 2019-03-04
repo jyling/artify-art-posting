@@ -12,9 +12,10 @@ if (Session::isLogin()) {
 }
 else {
 if (Input::exist()) {
+
   $valid = new Validate();
   $valid->check($_POST,array(
-    'usrname' => array(
+    'usrnm' => array(
       'required' => true,
       'min' => 3,
       'max' => 30,
@@ -31,6 +32,12 @@ if (Input::exist()) {
       'name' => 'password',
       'charAndNums' => true
     ),
+    'nickname' => array(
+      'required' => false,
+      'min' => 3,
+      'max' => 32,
+      'name' => 'nickname',
+    ),
     'second_password' => array(
       'required' => true,
       'min' => 6,
@@ -39,20 +46,13 @@ if (Input::exist()) {
       'charAndNums' => true
 
     ),
-    'fname' => array(
+    'email' => array(
       'required' => true,
-      'min' => 2,
-      'max' => 50,
-      'charOnly' => true,
-      'name' => 'first name'
+      'min' => '3',
+      'max' => '64',
+      'regex' => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i',
+      'name' => 'email'
     ),
-    'lname' => array(
-      'required' => true,
-      'min' => 2,
-      'max' => 60,
-      'charOnly' => true,
-      'name' => 'last name'
-    )
 
   ));
   $captcha = Captcha::verify($_POST);
@@ -61,13 +61,12 @@ if (Input::exist()) {
     $user = new User();
     try {
       $user->addUser(array(
-        'usrname' => Validate::sanitize(Input::get('usrname')),
-        'fname' => Validate::sanitize(Input::get('fname')),
-        'lname' => Validate::sanitize(Input::get('lname')),
-        'passhash' => PassHasher::getHash(Validate::sanitize(Input::get('password',true))),
+        'usrnm' => Validate::sanitize(Input::get('usrnm'),true),
+        'nickname' => Validate::sanitize(Input::get('nickname'),true),
+        'pwd' => PassHasher::getHash(Validate::sanitize(Input::get('password',true))),
+        'email' => Validate::sanitize(Input::get('email')),
         'joined' => date('Y-m-d H:i:s'),
-        'user_score' => $score,
-        'accountType' => 1
+        'score' => $score,
       ));
       Session::flash('success',"Sign Up success, you may now login");
       Page::redirect('index.php');
@@ -80,6 +79,7 @@ if (Input::exist()) {
     if ($captcha['success'] === false) {
       echo "<div class='thin-alert alert alert-warning alert-dismissible fade show'>" . $captcha['error-codes'][0]. "</div>";
     }
+    die(print_r($valid->getError()));
     foreach ($valid->getError() as $key => $val) {
       $a = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
       switch ($key) {
@@ -118,7 +118,7 @@ if (Input::exist()) {
       <label for="usrname">Username</label>
       <?php echo $username ?>
       <small id="usernameNote" class="form-text text-muted"><i>Please keep in mind that username <strong>cant be changed</strong> once it was set.</i></small>
-      <input class="form-control form-control-sm" type="text" name="usrname" id="usrname" value="<?php echo Validate::sanitize(Input::get('usrname',true)); ?>" autocomplete="off">
+      <input class="form-control form-control-sm" type="text" name="usrnm" id="usrname" value="<?php echo Validate::sanitize(Input::get('usrname',true)); ?>" autocomplete="off">
     </div>
     <div class="form-group">
       <label for="fname">Nickname</label>
@@ -130,19 +130,19 @@ if (Input::exist()) {
       <label for="password">Password</label>
       <?php echo $pass ?>
       <small id="Helppassword" class="form-text text-muted"><i>Your password <strong>must be longer than 6 character</strong> and <strong> must contain letters and numbers</strong></i></small>
-      <input class="form-control form-control-sm" type="password" name="password" id="password" value="" autocomplete="off">
+      <input class="form-control form-control-sm" type="password" name="password" id="password" value="990128a" autocomplete="off">
     </div>
     <div class="form-group">
       <label for="second_password">Password Re-enter</label>
       <?php echo $pass1 ?>
       <small id="Helppassword1" class="form-text text-muted"><i>Re-Type the password</i></small>
-      <input class="form-control form-control-sm" type="password" name="second_password" id="second_password" value="" autocomplete="off">
+      <input class="form-control form-control-sm" type="password" name="second_password" id="second_password" value="990128a" autocomplete="off">
     </div>
     <div class="form-group">
       <label for="password">Email</label>
       <?php echo $email ?>
       <small id="email" class="form-text text-muted"><i>Enter your Email</i></small>
-      <input class="form-control form-control-sm" type="email" name="password" id="password" value="" autocomplete="off">
+      <input class="form-control form-control-sm" type="email" name="email" id="email" value="s.gm@" autocomplete="off">
     </div>
     <div class="form-group">
       <?php Captcha::add() ?>

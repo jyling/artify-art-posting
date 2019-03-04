@@ -4,4 +4,4 @@ Session::remove('usrname');
 Session::remove('id');
 Session::remove('fullname');
 
-Page::redirect('index.php');
+Page::redirect('public/index.php');

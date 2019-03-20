@@ -2,6 +2,15 @@
 class Captcha{
   private static $_seckey = '6Lec9YQUAAAAAKugwbkkDYMOtRfzH_lwmiZ99EI-';
   private static $_pubkey = '6Lec9YQUAAAAALIPEDc2TJmKh0Tyq04J5he6v3QS';
+  private static $_errors = array(
+    'missing-input-secret' => 'an Error Has Occured',
+    'invalid-input-secret' => 'an Error Has Occured',
+    'missing-input-response' => 'an Error Has Occured',
+    'invalid-input-response' => 'an Error Has Occured',
+    'bad-request' => 'an Error Has Occured',
+    'timeout-or-duplicate' => 'You are submiting the form with the same infromation twice',
+
+  );
   public static function add() {
     $key = self::$_pubkey;
     echo <<<end
@@ -32,6 +41,11 @@ end;
    <a href="https://policies.google.com/terms">Terms of Service</a> apply.
     </p>
 end;
+  }
+
+  public static function errorCode($name){
+    return self::$_errors[$name];
+
   }
 
   public static function verify($post){

@@ -1,167 +1,149 @@
 <?php
 //initizalize class
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
-$a = NULL;
-$a['sql']['host'] = 'localhost';
-$a['sql']['pwd'] = '';
-$a['sql']['dbnm'] = 'artify';
+spl_autoload_register(function ($class) {
+    require_once "factory/$class.php";
+});
+$a                 = null;
+$a['sql']['host']  = 'localhost';
+$a['sql']['pwd']   = '';
+$a['sql']['dbnm']  = 'artify';
 $a['sql']['dbusr'] = 'root';
 
-$a['remberMe']['cookie_name'] = 'BEiWcC';
+$a['remberMe']['cookie_name']   = 'BEiWcC';
 $a['remberMe']['cookie_expiry'] = MonthToSec(2); // 2 months
-
-$a['session']['u_nm'] = 'user';
-$a['session']['tkn_nm'] = 'token';
+$a['api']['tinypic']            = "yf9WBQBMbfRNsVTQ1R2gBW1p5LNT0T1P";
+$a['session']['u_nm']           = 'user';
+$a['session']['tkn_nm']         = 'token';
 
 $a['nav']['brand'] = array(
-  'title' => 'Artify.io',
-  'url' => 'index.php'
+    'title' => 'Artify.io',
+    'url'   => 'index.php',
 );
-
-
 $a['nav']['items'] = array(
-  'Home' => array(
-    'file' => 'index.php'
-  ),
-  'Catergory' => array(
-    'file' => 'category.php',
-  ),
-  'Create New Post' => array(
-    'file' => 'post.php',
-    'showOnLogin' => true,
-    'RequireLogin' => true
-  ),
-  'Login' => array(
-    'file' => 'login.php',
-    'showOnLogin' => false
-  ),
-  'Register' => array(
-    'file' => 'reg.php',
-    'showOnLogin' => false
-  ),
-  'Change Profile Info' => array(
-    'file' => 'changeInfo.php',
-    'visible' => false,
-    'RequireLogin' => true
+    'Home'                => array(
+        'file'       => 'index.php',
+        'javascript' => 'view-post',
+    ),
+    'Catergory'           => array(
+        'file'       => 'category.php',
+        'javascript' => 'view-post',
+        'visible'    => false,
 
-  ),
-  'Error' => array(
-    'file' => '404.php',
-    'visible' => false
-  ),
-  'View Post' => array(
-    'file' => 'viewPost.php',
-    'visible' => false
-  ),
-  'Profile' => array(
-    'file' => 'viewProfile.php',
-    'showOnLogin' => true
-  ),
-  'Report' => array(
-    'file' => 'report.php',
-    'visible' => false,
-    'RequireLogin' => true
-    
-  ),
-  'Statistic' => array(
-    'file' => 'statistic.php',
-    'showOnLogin' => true,
-    'RequireLogin' => true
+    ),
+    'Follow'              => array(
+        'file'         => 'followed.php',
+        'visible'      => false,
+        'RequireLogin' => true,
+        'showOnLogin'  => true,
 
-  ),
-  'Apply' => array(
-    'file' => 'apply.php',
-    'showOnLogin' => true,
-    'RequireLogin' => true
-  ),
-  'Apply Artist' => array(
-    'file' => 'applyArtist.php',
-    'visible' => false,
-    'RequireLogin' => true
-  ),
-  'Logout' => array(
-    'file' => '../logout.php',
-    'showOnLogin' => true
-  ),
+    ),
+    'Create New Post'     => array(
+        'file'         => 'post.php',
+        'showOnLogin'  => true,
+        'RequireLogin' => true,
+        'javascript'   => 'post',
+    ),
+    'Login'               => array(
+        'file'        => 'login.php',
+        'showOnLogin' => false,
+    ),
+    'Register'            => array(
+        'file'        => 'reg.php',
+        'showOnLogin' => false,
+    ),
+    'Change Profile Info' => array(
+        'file'         => 'changeInfo.php',
+        'visible'      => false,
+        'RequireLogin' => true,
+        'javascript'   => 'post',
+
+    ),
+    'Error'               => array(
+        'file'    => '404.php',
+        'visible' => false,
+    ),
+    'View Post'           => array(
+        'file'       => 'viewPost.php',
+        'javascript' => 'view-post',
+        'visible'    => false,
+    ),
+    'Profile'             => array(
+        'file'        => 'viewProfile.php',
+        'showOnLogin' => true,
+        'javascript'  => 'view-account',
+    ),
+    'Report'              => array(
+        'file'         => 'report.php',
+        'javascript'   => 'post',
+        'visible'      => false,
+        'RequireLogin' => true,
+
+    ),
+    'Statistic'           => array(
+        'file'         => 'statistic.php',
+        'permission'   => array('admin', 'mod'),
+        'RequireLogin' => true,
+        'showOnLogin'  => true,
+
+    ),
+    'Apply(Artist)'       => array(
+        'file'         => 'apply.php',
+        'visible'      => false,
+        'showOnLogin'  => true,
+        'RequireLogin' => true,
+    ),
+    'Apply Artist'        => array(
+        'file'         => 'applyArtist.php',
+        'visible'      => false,
+        'RequireLogin' => true,
+        'javascript'   => 'post',
+    ),
+    'View Reported User'  => array(
+        'file'         => 'reportViewUser.php',
+        'visible'      => false,
+        'RequireLogin' => true,
+    ),
+    "Get Coins"           => array(
+        'file'         => 'getCoins.php',
+        'showOnLogin'  => true,
+        'RequireLogin' => true,
+    ),
+    'Payment'             => array(
+        'file'         => 'payment.php',
+        'javascript'   => 'charge',
+
+        'RequireLogin' => true,
+        'visible'      => false,
+    ),
+    'Logout'              => array(
+        'file'        => '../logout.php',
+        'showOnLogin' => true,
+    ),
+
 );
 
-$a['reader'] = '../factory/htmlSnippets/';
+$a['reader']        = '../factory/htmlSnippets/';
 $a['css']['source'] = '../css/master.css';
-
 
 $GLOBALS['settings'] = $a;
 
-function MonthToSec($month = 1){
-  define('SECPERMONTH', '2592000');
-  if ($month < 1 || !preg_match('/^[1-9][0-9]*$/',$month)) {
-    return SECPERMONTH;
-  }
-  else {
-    return SECPERMONTH * $month;
-  }
+function MonthToSec($month = 1)
+{
+    define('SECPERMONTH', '2592000');
+    if ($month < 1 || !preg_match('/^[1-9][0-9]*$/', $month)) {
+        return SECPERMONTH;
+    } else {
+        return SECPERMONTH * $month;
+    }
 }
 
+date_default_timezone_set('Asia/Kuala_Lumpur');
 
-spl_autoload_register(function($class){
-  require_once "factory/$class.php";
-});
 ob_start();
 Page::autoKick();
-if (Session::exist('modal')) {
-  die( Session::flash('modal') );
-}
+// Background::get();
 
 header('X-Frame-Options: DENY');
-
-
-//     if ($_SERVER['REQUEST_METHOD']=='POST') {
-//       $n = new Image();
-//       $n->getFile('image',array(
-//         'minSize' => 20,
-//         'maxSize' => $n->Mb2byte(4),
-//         'minWidth' => 20,
-//         'minHeight' => 20,
-//         'maxHeight' => 5000,
-//         'maxWidth' => 5000,
-//         'type' => array(
-//           'png',
-//           'jpeg',
-//           'jpg',
-//           'svg',
-//         ),
-//       ));
-//       //get file receive 2 argument where first one is the name of the image and
-//       //another one is the rules of the image, such as the width, height, size and type
-//       if ($n->getPassed()) { //check if the image has passed all the requirement
-//         echo "Valid<br>";
-//         echo $n->addToPath(array('Profile', 'default')); 
-//         //first argument is the hirache of the image 
-//         //when the first argument is true it should return the path of the image on addToPath function
-//         //the path will need to be stored into the database
-//       }
-//       else {
-//         echo "Invalid";
-//         $n->printErr();
-//       }
-//     }
-  // ?>
-<!-- <form class="" action="" method="post"  enctype="multipart/form-data">
-  <input type="file" name="image" value="">
-  <input type="submit" name="" value="">
-</form> -->
-<?php
-
-
-// die();
-// die(var_dump($_SESSION));
-
-// if (Cookie::check(Settings::get('remberMe>cookie_name')) && !Session::isLogin()) {
-  //   $hash = Cookie::get(Settings::get('remberMe>cookie_name'));
-  //   $hashCheck = DB::run()->get('session',array('hash','=',$hash));
-  //
-  //   // if ($hashCheck->getCount()) {
-    //   //   $user = new User($hashCheck->getData()->usr_id);
-    //   //   $
-    //   // }
-    // }
-    

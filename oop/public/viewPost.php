@@ -1,64 +1,150 @@
 <?php
-require_once('../init.php');
+require_once '../init.php';
 Page::addHead();
 Page::addNav();
-
+$user = new User();
+if (!Input::exist() && !Input::has('post')) {
+    Page::redirect('index.php');
+}
+$post = new Post(Input::get('post'));
+if (!$post->find(Input::get('post'))) {Page::redirect('index.php');}
+$msg      = $post->getData();
+$usr      = new User($msg->usr_id);
+$username = $usr->getData()->usrnm;
 ?>
 <div class="container">
 
-    <!-- <img src="Image/Samuel Ling/0f78e7e09ee4f0b3791a36ec96919da31d9631ecead180b211dbe68af25b3368.jpg" class="view-post-img border rounded img-fluid" alt="" srcset=""> -->
-    <!-- <img src="Image/Samuel Ling/a3d1d631a135359ccb69fd0609dae5357fdf3ad536e32dd9e5ae007e695d2b69.jpg" class="view-post-img border rounded img-fluid" alt="" srcset=""> -->
-    <img src="https://placeimg.com/1920/1080/any" class="view-post-img border rounded img-fluid" alt="" srcset="">
+    <img src="<?php echo Image::imgToBase64($msg->artCompressed) ?>" class="view-post-img border rounded img-fluid"
+        alt="" srcset="">
+    <center><a href="imageViewer.php?post=<?php echo $msg->post_id ?>" target="_blank">View High Quality</a></center>
+    <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
+        <div class="container text-center">
+            <h1 class='view-post-title'>Title : <?php echo $msg->title ?></h1>
+            <p class='font-italic'>
+                <?php
+$follow        = new Following();
+$followerCount = $follow->list($msg->usr_id);
+$title         = (!$follow->has($msg->usr_id)) ? "Follow ($followerCount)" : "Unfollow ($followerCount)";
+?>
+                Artist : <a href="<?php echo "viewProfile.php?user=$msg->usr_id" ?>"><?php echo $username ?></a>
+                <?php
+if ($user->getLogin()) {
+    ?>
+                <button class='btn btn-primary ml-sm-2' id="follow"
+                    onclick="<?php echo "follow($msg->usr_id)" ?>"><?php echo $title ?></button>
+                <?php
+}
+if ($post->isOwner(Session::get('id'))) {
+    $read = new Reader();
+    $read->read('yesnoModal.txt');
+    $output = $read->modify(array(
+        '$modalname' => 'deletePost',
+        '$openbtn'   => 'Delete',
+        '$modalname' => 'deletePost',
+        '$title'     => 'Delete Post ?',
+        '$content'   => 'Are you sure you want to delete your post ?',
+        '$btnType'   => 'danger',
+        '$yesID'     => 'deletePost',
+    ));
+    echo $output;
+    $read = new Reader();
+    $read->readBase('../js/removePost.js');
+    echo "<script>" . $read->getContent() . "</script>";
+}
+if ($post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id'))) {
+    $read = new Reader();
+    $read->read('yesnoModal.txt');
+    $output = $read->modify(array(
+        '$modalname' => 'buy',
+        '$openbtn'   => 'Buy for ' . ($post->getCost($msg->post_id)) . ' coins',
+        '$modalname' => 'buy',
+        '$title'     => 'Buy art for ' . ($post->getCost($msg->post_id)) . ' coins ?',
+        '$content'   => 'Are you sure you want purchase the art for ' . ($post->getCost($msg->post_id)) . ' coins ?',
+        '$btnType'   => 'warning',
+        '$yesID'     => 'buy',
+    ));
+    echo $output;
+    $read = new Reader();
+    $read->readBase('../js/buy.js');
+    echo "<script>" . $read->getContent() . "</script>";
 
-    <div class="container text-center">
-        <h1 class='view-post-title'>Title : My First Photograph</h1>
-        <p class='font-italic'>Artist : <a href="">Jack Desu (0 followers)</a> <button class='btn btn-primary ml-sm-2'>Follow</button></p>
-        <p class='font-italic'>Catergory : <a href="">Photography</a></p>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
-        </p>
+}
+?>
+                <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
+            </p>
+            <p>
+                <?php
+$react         = new Reaction();
+$likeandunlike = (object) $react->list(Input::get('post'));
+if ($user->getLogin()) {
+    ?>
+                <div class="btn-group" role="group">
+                    <button class='btn btn-success' id="like" onclick="like(<?php echo $msg->post_id ?>,1)">Like
+                        (<?php echo $likeandunlike->like ?>)</button>
+                    <button class='btn btn-danger' id="unlike" onclick="like(<?php echo $msg->post_id ?>,0)">Unlike
+                        (<?php echo $likeandunlike->dislike ?>)</button>
+                </div>
+            </p>
+            <?php
+}
+?>
+            <hr>
+            <p class='font-italic'>Catergory : <a
+                    href="<?php echo "category.php?category=$msg->category_id" ?>"><?php echo $post->getCategory($msg->category_id); ?></a>
+            </p>
+            <?php
+if (!empty($msg->collab)) {
+    $list   = explode(',', $msg->collab);
+    $output = array();
+    foreach ($list as $key => $value) {
+        $collab = new User($value);
+        $data   = $collab->getData();
+        if (!empty($data)) {
+            $output[] = "<a href='viewProfile.php?user=$data->usr_id'>$data->usrnm</a>";
+        }
+    }
+    echo "<p class='font-italic'>Collaboration : " . implode(',', $output) . "<p>";
+
+}
+?>
+            <p>
+                <?php echo $msg->content; ?>
+            </p>
+        </div>
     </div>
-</div>
-<div class="container">
-    <hr>
-    <h5 class='view-post-comment'>Comment</h5>
     <div class="container">
-        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="get">
-                <div class="form-group">
-                    <input class='form-control' name='comment'  type="text">
+        <hr>
+        <h5 class='view-post-comment'>Comment</h5>
+        <div class="container">
+            <div class="form-group">
+                <input class='form-control' id='comment-field' maxlength="200" type="text">
+                <div class="error">
                 </div>
-                <div class="form-group">
-                    <input class='form-control btn btn-primary' type="submit" value='post comment'>
-                </div>
-        </form>
+            </div>
+            <div class="form-group">
+                <button class='form-control btn btn-primary' id="post-comment-submit">post comment</button>
+            </div>
+        </div>
+        <hr>
+        <div class="container" id="comment" style="margin-bottom: 5%;">
+            <?php
 
-    </div>
-    <div class="container" style="margin-bottom: 5%;">  
-        <div class="comment-wrapper">
-            <div class="row">
-                    <div class="col-sm-1">
-                            <div class="thumbnail">
-                            <img class="img-responsive user-photo  border rounded" src="https://placeimg.com/64/64/any" width='64' height='64'>
-                            </div><!-- /thumbnail -->
-                    </div><!-- /col-sm-1 -->
-                    <div class="col-sm-10 comment-content border rounded" style='padding:0'>
-                        <div class="row-sm-1 comment-head">
-                            <a href="">Username</a> <span class='text-muted'>commented just now</span>
-                        </div>
-                        <div class="comment-body border rounded">
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat vel eum, quis ad fuga maxime suscipit iure dicta dolorum porro adipisci inventore quisquam nobis deserunt minus, neque cum consequuntur id?</p>
-                        </div>
-                    </div>
-                </div>
+$comment = new Comment();
+$comment->getComment('comment', 1, array(
+    'limit'     => '3',
+    'condition' => array(
+        'target'   => 'post_id',
+        'operator' => '=',
+        'value'    => Input::get('post'),
+    ),
+));
+echo $comment->generateComment(Input::get('post'));
+?>
         </div>
 
-
-    </div>
-    
-<?php
-
+        <?php
+if ($comment->pageleft(Input::get('post'), 0, 3) - 1 > 0) {
+    echo "<button id='load-comment' class='btn btn-primary'>Load more (" . $comment->pageleft(Input::get('post'), 0, 3) . ")</button>";
+}
 Page::addFoot();
 ?>

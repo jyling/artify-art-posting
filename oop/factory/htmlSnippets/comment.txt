@@ -1,0 +1,17 @@
+        <div class="comment-wrapper m-sm-2  ">
+            <div class="row">
+                    <div class="col-sm-1">
+                            <div class="thumbnail">
+                            <img class="img-responsive user-photo  border rounded" src="$usrImage" width='64' height='64'>
+                            </div>
+                    </div>
+                    <div class="col-sm-10 comment-content border rounded" style='padding:0'>
+                        <div class="row-sm-1 comment-head">
+                            <a href="viewProfile.php?user=$userLink">$commenterName</a> <span class='text-muted'>commented $time</span>
+                        </div>
+                        <div class="comment-body border rounded">
+                            <p>$content</p>
+                        </div>
+                    </div>
+                </div>
+        </div>

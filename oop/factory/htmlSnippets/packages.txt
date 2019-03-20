@@ -1,0 +1,10 @@
+                <div class="card mx-auto" style="width: 38rem;">
+                    <div class="card-body">
+                        <img class="card-img-top image-fluid" src="$imgPath" width='190' height='142.5'
+                            alt="Card image cap">
+                        <h5 class="card-title">$item <br> <small>MYR $cost</small> </h5>
+                        <p class="card-text">$item, usable to buy arts.</p>
+                        <a href="payment.php?choice=$id" class="btn btn-primary">Buy</a>
+                    </div>
+                </div>
+

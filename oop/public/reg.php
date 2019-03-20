@@ -37,6 +37,7 @@ if (Input::exist()) {
       'min' => 3,
       'max' => 32,
       'name' => 'nickname',
+      'charOnly' => true
     ),
     'second_password' => array(
       'required' => true,
@@ -77,7 +78,7 @@ if (Input::exist()) {
   }
   else {
     if ($captcha['success'] === false) {
-      echo "<div class='thin-alert alert alert-warning alert-dismissible fade show'>" . $captcha['error-codes'][0]. "</div>";
+      echo "<div class='text-center thin-alert alert alert-danger alert-dismissible fade show'>" . Captcha::errorCode($captcha['error-codes'][0]). "</div>";
     }
     
     foreach ($valid->getError() as $key => $val) {

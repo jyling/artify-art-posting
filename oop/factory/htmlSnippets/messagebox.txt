@@ -1,8 +1,8 @@
 
 
 <div class="card mt-sm-3" style="width: 18rem;">
-  <a class="achor-card" href="viewPost.php">
-    <img class="card-img-top image-fluid" src="https://placeimg.com/140/480" width='190' height='142.5' alt="Card image cap">
+  <a class="achor-card" href="viewPost.php?post=$post_id">
+    <img class="card-img-top image-fluid" src="$artPath" width='190' height='142.5' alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title" data-toggle="tooltip" data-placement="top" title="$fname">$name</h5>
       <h6 class="card-subtitle mb-2 text-muted">Post Id: <code>#$id</code></h6>

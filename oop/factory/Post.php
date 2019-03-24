@@ -41,6 +41,11 @@ class Post
             throw new \Exception("Error Processing Request");
         }
     }
+    public function update($params = array(), $id)
+    {
+        $db = DB::run();
+        $db->update('post', array('post_id' => $id), $params);
+    }
     public function getOwner()
     {
         if (count($this->getData()) > 0) {

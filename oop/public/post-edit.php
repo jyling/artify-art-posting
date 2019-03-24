@@ -47,12 +47,14 @@ if (Input::exist() && Input::has('post')) {
 
     ));
     $list = array();
-    if (Input::has('collab') && !(count(Input::get('collab') <= 0))) {
+    if (Input::has('collab') && !(Count(Input::get('collab')) <= 0)) {
         foreach (Input::get('collab') as $key => $value) {
             $list[] = $value;
+            // echo "$key + $value<br>";
         }
         $list = implode(',', $list);
     }
+
 
     if (count($list) <= 0) {
         $list = '';
@@ -106,9 +108,9 @@ if (Input::has('post')) {
                     <div class="container">
                         <div class="form-group">
                             <p class="text-center">Art collaboration</p>
+                           <?php Page::hiddenGet();?> 
                             <select multiple class="form-control" name="collab[]" id="collab">
                                 <?php
-Page::hiddenGet();
 $user       = new User();
 $data       = $user->getArtist();
 $collabData = explode(',', $Postdata->collab);
@@ -144,7 +146,7 @@ foreach ($db->getResult() as $key) {
                             <p class="text-center">Description</p>
                             <textarea class="col form-control" maxlength='256' placeholder="Description"
                                 name="description" rows="4"
-                                cols="80"><?php echo Validate::sanitize($Postdata->content) ?></textarea>
+                                cols="80"><?php echo $Postdata->content ?></textarea>
                             <p class='text-center'>Cost</p>
                             <input class="col form-control" type="number" name="cost" min="0" max="50"
                                 value="<?php echo $Postdata->cost ?>">
@@ -152,8 +154,8 @@ foreach ($db->getResult() as $key) {
                     </div>
                 </div>
                 <div class="post-img form-group text-center col-md-4">
-                    <h3>To update post image, please go <a
-                            href="post-update-img.php?post=<?php $Postdata->post_id?>">here</h3>
+                    <h3>To update post image, please go 
+                    <a href="post-update-img.php?post=<?php echo $Postdata->post_id ?>">here</h3>
                 </div>
             </div>
             <div class="container">

@@ -7,7 +7,9 @@ if (Input::exist('get')) {
     $post    = (new Post(Input::get('post')))->getData();
     $artist  = (new User($post->usr_id))->getData();
     $dataUri = '';
-    if ($artist->usr_id != Session::get('id')) {
+    $buy     = new purchase();
+
+    if ($artist->usr_id != Session::get('id') && (new Post(Input::get('post')))->getCost($post->post_id) > 0 && !$buy->has($post->post_id)) {
         $image                = $post->artPathRaw;
         list($width, $height) = getimagesize($image);
         $fontSize             = '100';

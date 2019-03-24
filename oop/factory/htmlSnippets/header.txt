@@ -28,7 +28,6 @@
     <script src="../js/selectize.js" charset="utf-8"></script>
     <link rel="stylesheet" href="$cssOrigin" />
     <link rel="stylesheet" href="..\css\selectize.bootstrap3.css" />
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.2/ScrollMagic.min.js"></script>
     <link
       rel="shortcut icon"
       href="../asset/icon/logo-2-color.png"
@@ -37,7 +36,12 @@
     <!--[if lt IE 9
       ]><script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script
     ><![endif]-->
-<link rel="stylesheet" href="../css/stripe.css">
+    <link rel="stylesheet" href="../css/stripe.css">
+    <link rel="stylesheet" href="../css/croppie.css">
+
+    <script src="../js/croppie.js"></script>
+
+
 
     <title>$pageName</title>
   </head>

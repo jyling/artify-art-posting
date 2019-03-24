@@ -67,7 +67,7 @@ class Image
             mkdir($file);
         }
         $filename = $this->countImage($file) + 1;
-        $file     = $file . $filename . '.' . $this->_imgExt;
+        $file     = $file . time() . '.' . $this->_imgExt;
         file_put_contents($file, file_get_contents($this->_tmpName));
         return $file; //return the path of the image
     }
@@ -82,7 +82,7 @@ class Image
             mkdir($file);
         }
         $filename = $this->countImage($file) + 1;
-        $file     = $file . $filename . '.' . 'png';
+        $file     = $file . time() . '.' . 'png';
         $img  = explode(',', $item);
         file_put_contents($file, base64_decode($img[1]));
         return $file; //return the path of the image

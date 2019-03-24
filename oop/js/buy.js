@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  $("#buy").click(function() {
+  $("#buyArt").click(function() {
+    console.log(this);
     $.ajax({
       url: "ajax/ajax-buy.php",
       type: "post",

@@ -3,6 +3,7 @@ require_once '../init.php';
 Page::addHead();
 Page::addNav();
 $usr = new User();
+// print_r($usr->getData());
 
 $ban = new Ban();
 if ($ban->has(Session::get('id'))) {
@@ -11,10 +12,10 @@ if ($ban->has(Session::get('id'))) {
     }
 
 }
-
 if ($usr->getPermission()->usr->permission->post) {
     # code...
     $artistList = $usr->getArtist();
+    $usr->find(Session::get('id'));
     if (Input::exist()) {
         $vali   = new Validate();
         $img    = new Image();
@@ -163,6 +164,7 @@ $db = DB::Run();
 <div class="container" style="margin-top: 10%">
     <center>
         <h3 class="text-muted text-center">You dont have the permission to do this</h3>
+        <small>Please request to apply to be a artist on your profile inorder to make artpost</small>
     </center>
 </div>
 

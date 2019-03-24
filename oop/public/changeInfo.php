@@ -20,29 +20,29 @@ if (Input::exist()) {
         echo "<div class='text-center thin-alert alert alert-danger alert-dismissible fade show'>" . Captcha::errorCode($captcha['error-codes'][0]) . "</div>";
     }
     if ($usr->verifyPass(Input::get('oldpass'), $pwd) && $captcha['success']) {
-        $img = new Image();
-        if (Input::has('cbxProfilePic')) {
-            $img->getFile('image', array(
-                'minSize'   => 20,
-                'maxSize'   => $img->Mb2byte(4),
-                'minWidth'  => 64,
-                'minHeight' => 64,
-                'maxHeight' => 128,
-                'maxWidth'  => 128,
-                'type'      => array(
-                    'png',
-                    'jpg',
-                ),
-            ));
-            if ($img->getPassed()) { //check if the image has passed all the requirement
-                $path = $img->addToPath(array('Profile', $usr->getData()->usrnm));
+        // $img = new Image();
+        // if (Input::has('cbxProfilePic')) {
+        //     $img->getFile('image', array(
+        //         'minSize'   => 20,
+        //         'maxSize'   => $img->Mb2byte(4),
+        //         'minWidth'  => 64,
+        //         'minHeight' => 64,
+        //         'maxHeight' => 128,
+        //         'maxWidth'  => 128,
+        //         'type'      => array(
+        //             'png',
+        //             'jpg',
+        //         ),
+        //     ));
+        //     if ($img->getPassed()) { //check if the image has passed all the requirement
+        //         $path = $img->addToPath(array('Profile', $usr->getData()->usrnm));
 
-                $params['profileImgPath'] = $path;
-            } else {
-                $failed['image'] = $img->getError();
-            }
+        //         $params['profileImgPath'] = $path;
+        //     } else {
+        //         $failed['image'] = $img->getError();
+        //     }
 
-        }
+        // }
         if (Input::has('cbxNickname')) {
             $vali   = new Validate();
             $result = $vali->check($_POST, array(
@@ -158,22 +158,76 @@ if (Input::exist()) {
 }
 
 ?>
+<script>
+window.onload = function(){   
+    initizalize('.my-image', '#image-test', '#upload', '#dummy', 'ajax/ajax-pfp.php');
+    function initizalize(target, input, button, output, php) {
+            var basic = $(target).croppie({
+                enableExif: true,
+                viewport: {
+                    width: 128,
+                    height: 128
+                },
+                boundary: {
+                    width: 256,
+                    height: 256
+                },
+
+            });;
+
+            $(input).on('change', function() {
+                var read = new FileReader();
+                read.onload = function(e) {
+                    basic.croppie('bind', {
+                        url: e.target.result
+                    }).then(function() {
+                        console.log('binded')
+                    })
+                }
+                read.readAsDataURL(this.files[0])
+            })
+            $(button).on('click', function(e) {
+                basic.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                }).then(function(ea) {
+                    $.ajax({
+                        url: php,
+                        type: 'post',
+                        data: {
+                            img: ea
+                        },
+                        success: function(data) {
+                            alert('uploaded');
+                            alert('you will be redirected to your profile page');
+                            location.href = "viewProfile.php";
+                        }
+                    })
+                })
+            })
+
+
+
+
+        }
+}
+</script>
 <div class="container container-sm">
-    <form class="" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-      <div class="form-group">
+    <div class="form-group">
         <h1>Change Profile Information</h1>
-      </div>
-        <div class="form-group">
-          <label for="Profile Pic"><Input type='checkbox' name="cbxProfilePic" id="cbxProfilePic"  onclick='toggle(this,"pic-toggle")'>  <label id="lblcbxProfilePic" for="cbxProfilePic">Profile Picture</label> </label>
-          <?php echo $image ?>
-          <div id='pic-toggle' style='display:none'>
-              <td><img class="img-target img-thumbnail" onerror="this.src='../asset/placeholder.png';" width='64' height="64" alt="Your Image Goes Here" src="#">
-              <input class='ml-sm-3' onchange="reloadImage(this ,false)" type="file" name="image" value="">
-            </td>
-          </div>
-          <small class='form-text text-muted'>Change your profile picture here, the <b>requirement</b> are max 128 pixel, png and jpg <b>only</b></small>
+    </div>
+    <div class="form-group">
+        <label for="Profile Pic"><Input type='checkbox' name="cbxProfilePic" id="cbxProfilePic"  onclick='toggle(this,"pic-toggle")'>  <label id="lblcbxProfilePic" for="cbxProfilePic">Profile Picture</label> </label>
+        <?php echo $image ?>
+        <div id='pic-toggle' style='display:none'>
+                <img class="my-image" src="../asset/placeholder.png" />
+                <input class="form-control mt-1" style="width:25%" type="file" name="image-test" id="image-test">
+                <button class="btn btn-primary mt-1" id="upload">Upload</button>
+            </div>
+            <small class='form-text text-muted'>Change your profile picture here, the <b>requirement</b> are max 128 pixel, png and jpg <b>only</b></small>
         </div>
-      <hr>
+        <hr>
+        <form class="" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="usrname"><Input type='checkbox' name="cbxNickname" id="cbxNickname"  onclick='toggle(this,"nick-toggle")'>  <label id="lblcbxNickname" for="cbxNickname">Nickname</label></label>
         <?php echo $nick ?>

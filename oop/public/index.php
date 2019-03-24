@@ -17,6 +17,7 @@ if (Session::exist('success')) {
         <a class="btn btn-primary active" href="#">Home</a>
         <a class="btn btn-primary" href="category.php">Category</a>
         <a class="btn btn-primary" href="followed.php">Followed</a>
+        <a class="btn btn-primary" href="purchasedArt.php">Purchased Art</a>
     </div>
     <div class="container container-full container-sm">
         <center>

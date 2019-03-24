@@ -1,4 +1,3 @@
-
 <?php
 class Validate
 {
@@ -73,6 +72,11 @@ class Validate
                             $db->get($con_value['table'], array($con_value['colName'], '=', $value));
                             if ($db->getCount() < 1) {
                                 $this->addError("<strong>$rules[name]</strong> does not exist within the database", $item);
+                            }
+                            break;
+                        case 'numsRange':
+                            if ($rules['numsRange'][0] > $value && $rules['numsRange'][1] < $value) {
+                                $this->addError("<strong>$rules[name]</strong> must be in range of " . $rules['numsRange'][0] . " to " . $rules['numsRange'][1], $item);
                             }
                             break;
                     }

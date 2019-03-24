@@ -35,6 +35,9 @@ if ($user->getLogin()) {
                 <?php
 }
 if ($post->isOwner(Session::get('id'))) {
+    ?>
+    <a class="btn btn-info" href="post-edit.php?post=<?php echo  $msg->post_id ?>">Edit</a>
+    <?php
     $read = new Reader();
     $read->read('yesnoModal.txt');
     $output = $read->modify(array(
@@ -50,6 +53,7 @@ if ($post->isOwner(Session::get('id'))) {
     $read = new Reader();
     $read->readBase('../js/removePost.js');
     echo "<script>" . $read->getContent() . "</script>";
+
 }
 $buy = new purchase();
 if (!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id'))) {

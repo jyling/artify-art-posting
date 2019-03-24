@@ -38,7 +38,7 @@
     ><![endif]-->
     <link rel="stylesheet" href="../css/stripe.css">
     <link rel="stylesheet" href="../css/croppie.css">
-
+    <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
     <script src="../js/croppie.js"></script>
 
 

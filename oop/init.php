@@ -40,8 +40,22 @@ $a['nav']['items'] = array(
         'showOnLogin'  => true,
 
     ),
+    'Purchased Art'       => array(
+        'file'         => 'purchasedArt.php',
+        'visible'      => false,
+        'RequireLogin' => true,
+        'showOnLogin'  => true,
+
+    ),
     'Create New Post'     => array(
         'file'         => 'post.php',
+        'showOnLogin'  => true,
+        'RequireLogin' => true,
+        'javascript'   => 'post',
+    ),
+    'Edit Post'           => array(
+        'file'         => 'post-edit.php',
+        'visible'      => false,
         'showOnLogin'  => true,
         'RequireLogin' => true,
         'javascript'   => 'post',

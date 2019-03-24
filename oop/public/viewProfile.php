@@ -29,7 +29,7 @@ $rule       = new Permission();
     <?php echo "<input type='hidden' id='userId' value='$detail->usr_id'>"; ?>
     <div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
         <div class="box text-center">
-            <img class='img-thumbnail mt-sm-2' src="<?php echo $detail->profileImgPath ?>" alt="">
+            <img class='img-thumbnail mt-sm-2' src="<?php echo Image::imgToBase64($detail->profileImgPath) ?>" alt="">
             <h1 id='profile-usrname'><?php echo $detail->usrnm . "  (  $detail->nickname  )" ?></h1>
             <?php
 //follower

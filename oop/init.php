@@ -60,6 +60,13 @@ $a['nav']['items'] = array(
         'RequireLogin' => true,
         'javascript'   => 'post',
     ),
+    'Update Image'           => array(
+        'file'         => 'post-update-img.php',
+        'visible'      => false,
+        'showOnLogin'  => true,
+        'RequireLogin' => true,
+        'javascript'   => 'post',
+    ),
     'Login'               => array(
         'file'        => 'login.php',
         'showOnLogin' => false,

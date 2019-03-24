@@ -33,6 +33,7 @@ if (Input::has('category')) {
         <a class="btn btn-primary" href="index.php">Home</a>
         <a class="btn btn-primary active" href="#">Category</a>
         <a class="btn btn-primary" href="followed.php">Followed</a>
+        <a class="btn btn-primary" href="purchasedArt.php">Purchased Art</a>
     </div>
 
     <div class="container container-full container-sm">

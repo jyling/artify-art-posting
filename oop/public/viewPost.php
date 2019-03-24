@@ -51,7 +51,8 @@ if ($post->isOwner(Session::get('id'))) {
     $read->readBase('../js/removePost.js');
     echo "<script>" . $read->getContent() . "</script>";
 }
-if ($post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id'))) {
+$buy = new purchase();
+if (!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id'))) {
     $read = new Reader();
     $read->read('yesnoModal.txt');
     $output = $read->modify(array(
@@ -61,7 +62,7 @@ if ($post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id'))) {
         '$title'     => 'Buy art for ' . ($post->getCost($msg->post_id)) . ' coins ?',
         '$content'   => 'Are you sure you want purchase the art for ' . ($post->getCost($msg->post_id)) . ' coins ?',
         '$btnType'   => 'warning',
-        '$yesID'     => 'buy',
+        '$yesID'     => 'buyArt',
     ));
     echo $output;
     $read = new Reader();

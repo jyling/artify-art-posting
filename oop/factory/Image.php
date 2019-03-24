@@ -72,6 +72,24 @@ class Image
         return $file; //return the path of the image
     }
 
+    public function addToPath64($path = array(),$base = '',$item)
+    {
+        $file = '';
+        //path of the image
+
+        $file = $base.'../' . 'image/' . $this->pathGen($path);
+        if (!file_exists($file)) {
+            mkdir($file);
+        }
+        $filename = $this->countImage($file) + 1;
+        $file     = $file . $filename . '.' . 'png';
+        $img  = explode(',', $item);
+        file_put_contents($file, base64_decode($img[1]));
+        return $file; //return the path of the image
+    }
+
+
+
     public function compress($imgPath, $path, $desination, $quality)
     {
         $file = "../image/" . $this->pathGen($path) . "$desination/";

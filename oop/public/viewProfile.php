@@ -144,7 +144,7 @@ end;
             <?php
 $msg = new Message();
 $msg->getMsg('post', Pagination::getPage(0), array(
-    'limit'     => '1',
+    'limit'     => '10',
     'condition' => array(
         'target'   => 'usr_id',
         'operator' => '=',

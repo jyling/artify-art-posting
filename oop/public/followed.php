@@ -58,6 +58,7 @@ if (Input::has('artist')) {
         <a class="btn btn-primary" href="index.php">Home</a>
         <a class="btn btn-primary" href="category.php">Category</a>
         <a class="btn btn-primary active" href="#">Followed</a>
+        <a class="btn btn-primary" href="purchasedArt.php">Purchased Art</a>
     </div>
     <center>
         <h1><?php echo $title ?></h1>

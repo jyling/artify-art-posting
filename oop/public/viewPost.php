@@ -36,9 +36,9 @@ if ($user->getLogin()) {
 }
 if ($post->isOwner(Session::get('id'))) {
     ?>
-    <a class="btn btn-info" href="post-edit.php?post=<?php echo  $msg->post_id ?>">Edit</a>
-    <?php
-    $read = new Reader();
+                <a class="btn btn-info" href="post-edit.php?post=<?php echo  $msg->post_id ?>">Edit</a>
+                <?php
+$read = new Reader();
     $read->read('yesnoModal.txt');
     $output = $read->modify(array(
         '$modalname' => 'deletePost',
@@ -53,10 +53,9 @@ if ($post->isOwner(Session::get('id'))) {
     $read = new Reader();
     $read->readBase('../js/removePost.js');
     echo "<script>" . $read->getContent() . "</script>";
-
 }
 $buy = new purchase();
-if (!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id'))) {
+if (!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id')) && $user->getLogin()) {
     $read = new Reader();
     $read->read('yesnoModal.txt');
     $output = $read->modify(array(
@@ -111,6 +110,7 @@ if (!empty($msg->collab)) {
     echo "<p class='font-italic'>Collaboration : " . implode(',', $output) . "<p>";
 
 }
+$comment = new Comment();
 ?>
             <p>
                 <?php echo $msg->content; ?>
@@ -119,10 +119,11 @@ if (!empty($msg->collab)) {
     </div>
     <div class="container">
         <hr>
-        <h5 class='view-post-comment'>Comment</h5>
+        <h5 class='view-post-comment' id="comment-count">Comment: <?php echo $comment->getCount(Input::get('post'))?></h5>
         <div class="container">
             <div class="form-group">
-                <input class='form-control' id='comment-field' maxlength="200" type="text">
+                <input class='form-control' onkeydown="LimitChar(this,200)" id='comment-field' maxlength="200" type="text">
+                <small id="character"></small>
                 <div class="error">
                 </div>
             </div>
@@ -134,7 +135,6 @@ if (!empty($msg->collab)) {
         <div class="container" id="comment" style="margin-bottom: 5%;">
             <?php
 
-$comment = new Comment();
 $comment->getComment('comment', 1, array(
     'limit'     => '3',
     'condition' => array(

@@ -98,7 +98,7 @@ class DB
     public function doThis($condition, $table, $terms = array())
     {
         if (count($terms) === 3) {
-            $WHITELIST = array('=', '<', '>', '>=', '<=');
+            $WHITELIST = array('=', '<', '>', '>=', '<=','LIKE');
             $allowed   = $WHITELIST;
 
             $term     = $terms[0];
@@ -119,6 +119,22 @@ class DB
             }
         }
 
+    }
+
+    public function haystackFind($terms = array(),$table = '') {        
+        $output = '';
+        $val = array();
+        foreach ($terms as $key => $value) {
+            $output .= " LOWER(`$key`) LIKE ? OR";
+            $val[] = "%$value%";
+        }
+        $output = substr($output,0,strlen($output) - 2);
+        $sql = "SELECT * FROM $table WHERE $output";
+        // echo $sql . ' ' . var_dump($val) . "<br>";
+        if (!$this->query($sql, $val)->error()) {
+            return $this;
+        }
+        
     }
 
     public function jointTable($inputs = array(), $conditions = array(), $additionalCondition = '')

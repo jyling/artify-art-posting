@@ -1,11 +1,11 @@
 
 
 <div class="card mt-sm-3" style="width: 18rem;">
-  <a class="achor-card" href="viewPost.php?post=$post_id">
+  <a class="achor-card" href="$post_id">
     <img class="card-img-top image-fluid" src="$artPath" width='190' height='142.5' alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title" data-toggle="tooltip" data-placement="top" title="$fname">$name</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Post Id: <code>#$id</code></h6>
+      <h5 class="card-title" data-toggle="tooltip" data-placement="top" title="$titleLong">$title</h5>
+      <h6 class="card-subtitle mb-2 text-muted" title="$fname">$name</h6>
       <p class="card-text">$msg</p>
     </div>
   </a>

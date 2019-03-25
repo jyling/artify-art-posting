@@ -78,6 +78,7 @@ if ((new User())->getLogin()) {
             ),
         ));
         $output['tag'] = '';
+        $output['count'] = $comment->getCount(Input::get('post'));
 
     }
 } else {

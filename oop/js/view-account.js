@@ -1,6 +1,25 @@
 var pages = 1;
 var runable = true;
 
+function LimitChar(tag,char){
+  var size = tag.value.length;
+  $('#character').html('Character Left : ' + (char - size));
+  if ((char - size) <= 0) {
+    tag.value = tag.value.substring(0,size);
+    $('#character').addClass("text-danger")
+    $('#' + tag.id).addClass("is-invalid");
+  }
+  else {
+    $('#character').removeClass("text-danger")
+    $('#' + tag.id).removeClass("is-invalid");
+
+  }
+
+}
+
+
+
+
 function follow(e) {
   $.ajax({
     url: "ajax/ajax-follow.php",

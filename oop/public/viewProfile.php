@@ -165,6 +165,7 @@ $page = new Pagination($msg->totalPage(
 ?>
         </div>
     </div>
+    </center>
 
 
 
@@ -174,7 +175,8 @@ $page = new Pagination($msg->totalPage(
         <h5 class='view-post-comment'>Comment</h5>
         <div class="container">
             <div class="form-group">
-                <input class='form-control' id='comment-field' maxlength="200" type="text">
+            <input class='form-control' onkeydown="LimitChar(this,200)" id='comment-field' maxlength="200" type="text">
+                <small id="character"></small>
                 <div class="error">
                 </div>
             </div>

@@ -49,12 +49,10 @@ if (Input::exist() && Input::has('post')) {
     $list = array();
     if (Input::has('collab') && !(Count(Input::get('collab')) <= 0)) {
         foreach (Input::get('collab') as $key => $value) {
-            $list[] = $value;
-            // echo "$key + $value<br>";
+            $list[] = $value;          
         }
         $list = implode(',', $list);
     }
-
 
     if (count($list) <= 0) {
         $list = '';

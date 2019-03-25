@@ -29,6 +29,8 @@ class Message
                 $user        = new User($msg->usr_id);
                 $fname       = $user->getData()->usrnm;
                 $name        = (strlen($fname) > 16) ? self::StringOverflow($fname) : $fname;
+                $title        = (strlen($msg->title) > 16) ? self::StringOverflow($msg->title) : $msg->title;
+
                 $art         = Image::imgToBase64($msg->artThumbnail);
                 $read        = new Reader();
                 $read->read($template);
@@ -37,7 +39,9 @@ class Message
                     '$fname'   => $fname,
                     '$artPath' => $art,
                     '$id'      => $message_id,
-                    '$post_id' => $message_id,
+                    '$post_id' => "viewPost.php?post=".$message_id,
+                    '$titleLong' => $msg->title,
+                    '$title' => $title,
                     '$msg'     => $msg_content,
                 ));
             }

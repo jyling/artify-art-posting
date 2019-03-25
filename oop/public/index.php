@@ -22,8 +22,8 @@ if (Session::exist('success')) {
     <div class="container container-full container-sm">
         <center>
             <h1 class="mb-sm-5">Face of the Artify</h1>
-            <form class="">
-                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            <form method="get" action="search.php">
+                <input class="form-control" type="text" name="terms" placeholder="Search" aria-label="Search">
                 <button class="btn btn-block mt-sm-2 btn-primary btn-rounded" type="submit">Search</button>
             </form>
         </center>
@@ -38,7 +38,7 @@ if (Input::get('page') !== '') {
 
 $msg = new Message();
 $msg->getMsg('post', Pagination::getPage(0), array(
-    'limit' => '15',
+    'limit' => '10',
 ));
 ?>
 <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>

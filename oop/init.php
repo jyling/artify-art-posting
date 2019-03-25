@@ -40,6 +40,13 @@ $a['nav']['items'] = array(
         'showOnLogin'  => true,
 
     ),
+    'Search'              => array(
+        'file'         => 'search.php',
+        'visible'      => false,
+        'RequireLogin' => true,
+        'showOnLogin'  => true,
+
+    ),
     'Purchased Art'       => array(
         'file'         => 'purchasedArt.php',
         'visible'      => false,

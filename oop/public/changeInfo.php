@@ -158,115 +158,145 @@ if (Input::exist()) {
 }
 
 ?>
-<script>
-window.onload = function(){   
-    initizalize('.my-image', '#image-test', '#upload', '#dummy', 'ajax/ajax-pfp.php');
-    function initizalize(target, input, button, output, php) {
-            var basic = $(target).croppie({
-                enableExif: true,
-                viewport: {
-                    width: 128,
-                    height: 128
-                },
-                boundary: {
-                    width: 256,
-                    height: 256
-                },
 
-            });;
-
-            $(input).on('change', function() {
-                var read = new FileReader();
-                read.onload = function(e) {
-                    basic.croppie('bind', {
-                        url: e.target.result
-                    }).then(function() {
-                        console.log('binded')
-                    })
-                }
-                read.readAsDataURL(this.files[0])
-            })
-            $(button).on('click', function(e) {
-                basic.croppie('result', {
-                    type: 'canvas',
-                    size: 'viewport'
-                }).then(function(ea) {
-                    $.ajax({
-                        url: php,
-                        type: 'post',
-                        data: {
-                            img: ea
-                        },
-                        success: function(data) {
-                            alert('uploaded');
-                            alert('you will be redirected to your profile page');
-                            location.href = "viewProfile.php";
-                        }
-                    })
-                })
-            })
-
-
-
-
-        }
-}
-</script>
 <div class="container container-sm">
     <div class="form-group">
         <h1>Change Profile Information</h1>
     </div>
     <div class="form-group">
-        <label for="Profile Pic"><Input type='checkbox' name="cbxProfilePic" id="cbxProfilePic"  onclick='toggle(this,"pic-toggle")'>  <label id="lblcbxProfilePic" for="cbxProfilePic">Profile Picture</label> </label>
+        <label for="Profile Pic"><Input type='checkbox' name="cbxProfilePic" id="cbxProfilePic"
+                onclick='toggle(this,"pic-toggle")'> <label id="lblcbxProfilePic" for="cbxProfilePic">Profile
+                Picture</label> </label>
         <?php echo $image ?>
         <div id='pic-toggle' style='display:none'>
-                <img class="my-image" src="../asset/placeholder.png" />
-                <input class="form-control mt-1" style="width:25%" type="file" name="image-test" id="image-test">
-                <button class="btn btn-primary mt-1" id="upload">Upload</button>
-            </div>
-            <small class='form-text text-muted'>Change your profile picture here, the <b>requirement</b> are max 128 pixel, png and jpg <b>only</b></small>
+            <?php
+                $read = new Reader();
+    $read->read('cancelModal.txt');
+    $output = $read->modify(array(
+        '$modalname' => 'updateProfileImg',
+        '$openbtn'   => 'Update',
+        '$modalname' => 'updateProfileImg',
+        '$title'     => 'Update Profile ?',
+        '$content'   => '<img class="my-image" src="../asset/placeholder.png" />
+        <input class="form-control m-2" type="file" name="image-test" id="image-test">',
+        '$choiceBtn'   => 'Upload',
+        '$choiceId'     => 'upload',
+
+    ));
+    echo $output;
+    $read = new Reader();
+    $read->readBase('../js/removePost.js');
+    echo "<script>" . $read->getContent() . "</script>";
+    ?>
+        </div>
+        <small class='form-text text-muted'>Change your profile picture here, the <b>requirement</b> are max 128 pixel,
+            png and jpg <b>only</b></small>
+    </div>
+    <hr>
+    <form class="" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="usrname"><Input type='checkbox' name="cbxNickname" id="cbxNickname"
+                    onclick='toggle(this,"nick-toggle")'> <label id="lblcbxNickname"
+                    for="cbxNickname">Nickname</label></label>
+            <?php echo $nick ?>
+            <input class="form-control form-control" style="display:none" type="text" name="nickname" id="nick-toggle"
+                value="<?php echo Validate::sanitize($usr->getData()->nickname) ?>" autocomplete="off">
+            <small class='form-text text-muted'>Change your nickname here, it <b>should be only</b> letters and
+                space</small>
         </div>
         <hr>
-        <form class="" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="usrname"><Input type='checkbox' name="cbxNickname" id="cbxNickname"  onclick='toggle(this,"nick-toggle")'>  <label id="lblcbxNickname" for="cbxNickname">Nickname</label></label>
-        <?php echo $nick ?>
-        <input class="form-control form-control" style="display:none" type="text" name="nickname" id="nick-toggle" value="<?php echo Validate::sanitize($usr->getData()->nickname) ?>" autocomplete="off">
-        <small class='form-text text-muted'>Change your nickname here, it <b>should be only</b> letters and space</small>
-      </div>
-      <hr>
 
-      <div class="wrapper">
-        <input type="checkbox"  id="cbxNewPassword" name="cbxNewPassword" onclick='toggle(this,"pass-toggle")'>  <label id="lblcbxNewPassword" for="cbxNewPassword">New Password</label></label>
-        <?php echo $pwd1 ?>
-        <?php echo $repwd ?>
-        <div id="pass-toggle" style="display:none">
-            <div class="form-group">
-              <label for="usrname">New Password</label>
-              <input class="form-control form-control" type="password" name="newpass" id="newpass" value="" autocomplete="off">
+        <div class="wrapper">
+            <input type="checkbox" id="cbxNewPassword" name="cbxNewPassword" onclick='toggle(this,"pass-toggle")'>
+            <label id="lblcbxNewPassword" for="cbxNewPassword">New Password</label></label>
+            <?php echo $pwd1 ?>
+            <?php echo $repwd ?>
+            <div id="pass-toggle" style="display:none">
+                <div class="form-group">
+                    <label for="usrname">New Password</label>
+                    <input class="form-control form-control" type="password" name="newpass" id="newpass" value=""
+                        autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="usrname">Re-enter Password</label>
+                    <input class="form-control form-control" type="password" name="repass" id="repass" value=""
+                        autocomplete="off">
+                </div>
             </div>
-            <div class="form-group">
-              <label for="usrname">Re-enter Password</label>
-              <input class="form-control form-control" type="password" name="repass" id="repass" value="" autocomplete="off">
-            </div>
+            <small class='form-text text-muted'>Change your password here, it <b>must</b> contain atleast a number and a
+                letter</small>
         </div>
-        <small class='form-text text-muted'>Change your password here, it <b>must</b> contain atleast a number and a letter</small>
-      </div>
 
-      <hr>
+        <hr>
 
-      <div class="form-group">
-        <label for="usrname">Old Password</label>
-        <?php echo $oldpwd ?>
-        <input class="form-control form-control" type="password" name="oldpass" id="oldpass" value="990128a" autocomplete="off">
-      </div>
+        <div class="form-group">
+            <label for="usrname">Old Password</label>
+            <?php echo $oldpwd ?>
+            <input class="form-control form-control" type="password" name="oldpass" id="oldpass" value="990128a"
+                autocomplete="off">
+        </div>
 
-      <?php
+        <?php
 Captcha::add();
 ?>
-      <div class="form-group">
-        <input class="btn btn-primary" value="Change" name="sumit" type="submit">
+        <div class="form-group">
+            <input class="btn btn-primary" value="Change" name="sumit" type="submit">
     </form>
 </div>
 </div>
+<script>
+window.onload = function() {
+    initizalize('.my-image', '#image-test', '#upload', '#dummy', 'ajax/ajax-pfp.php');
+
+    function initizalize(target, input, button, output, php) {
+        var basic = $(target).croppie({
+            enableExif: true,
+            viewport: {
+                width: 128,
+                height: 128
+            },
+            boundary: {
+                width: 256,
+                height: 256
+            },
+
+        });;
+
+        $(input).on('change', function() {
+            var read = new FileReader();
+            read.onload = function(e) {
+                basic.croppie('bind', {
+                    url: e.target.result
+                }).then(function() {
+                    console.log('binded')
+                })
+            }
+            read.readAsDataURL(this.files[0])
+        })
+        $(button).on('click', function(e) {
+            basic.croppie('result', {
+                type: 'canvas',
+                size: 'viewport'
+            }).then(function(ea) {
+                $.ajax({
+                    url: php,
+                    type: 'post',
+                    data: {
+                        img: ea
+                    },
+                    success: function(data) {
+                        alert('uploaded');
+                        alert('you will be redirected to your profile page');
+                        location.href = "viewProfile.php";
+                    }
+                })
+            })
+        })
+
+
+
+
+    }
+}
+</script>
 <?php Page::addFoot();?>

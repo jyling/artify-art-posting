@@ -1,5 +1,25 @@
 var pages = 1;
 var runable = true;
+
+function LimitChar(tag,char){
+  var size = tag.value.length;
+  $('#character').html('Character Left : ' + (char - size));
+  if ((char - size) <= 0) {
+    tag.value = tag.value.substring(0,size);
+    $('#character').addClass("text-danger")
+    $('#' + tag.id).addClass("is-invalid");
+  }
+  else {
+    $('#character').removeClass("text-danger")
+    $('#' + tag.id).removeClass("is-invalid");
+
+  }
+
+}
+
+
+
+
 $(document).ready(function() {
   $(".pagination").rPage();
 
@@ -20,6 +40,7 @@ $(document).ready(function() {
         success: function(data, status) {
           console.log(data);
           output = JSON.parse(data);
+          $('#comment-count').html("Comment: " + output.count);
           document.getElementById("comment").innerHTML = "";
           if (output.error != undefined) {
             $(".error").html(output.error);
@@ -37,6 +58,7 @@ $(document).ready(function() {
       });
     }
   });
+
 
   $("#load-comment").on("click", function() {
     pages++;

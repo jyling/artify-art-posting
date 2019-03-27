@@ -71,7 +71,7 @@ if ($usr->getPermission()->usr->permission->post) {
         if ($result->passed() && $img->getPassed()) {
             $post       = new Post();
             $path       = $img->addToPath(array('Post', $usr->getData()->usrnm));
-            $thumbnail  = $img->compress($path, array('Post', $usr->getData()->usrnm), 'thumbnail', 30);
+            $thumbnail  = $img->compress($path, array('Post', $usr->getData()->usrnm), 'thumbnail', 10);
             $Compressed = $img->compress($path, array('Post', $usr->getData()->usrnm), 'compressed', 70);
 
             $post->insert(array(

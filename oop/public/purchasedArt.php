@@ -29,48 +29,33 @@ $purchases = $db->getResult();
 // echo "</pre>";
 $user = new purchase();
 if ($user->getCount() > 0) {
-
-    ?>
-    <div class="card-deck mb-3">
-
-        <?php
-
-    foreach ($purchases as $purchase => $attr) {
-        $author;
-        $post_id;
-        $msg;
-        if ($attr->post_id == null) {
-            $author  = 'Deleted';
-            $post_id = 'Deleted';
-        } else {
-            $post       = new Post($attr->post_id);
-            $postDetail = $post->getData();
-            $usr        = (new User($postDetail->usr_id))->getData();
-            $author     = (strlen($usr->usrnm) > 16) ? self::StringOverflow($usr->usrnm) : $usr->usrnm;
-            $msg        = (new Post($attr->post_id))->getData();
-            $post_id    = $postDetail->post_id;
-        }
-
-        $button = "<a target='_blank' href='downloader.php?url=" . $attr->purchase_id . "'>Download</a>";
-        $read   = new Reader();
-        $read->read('messagebox.txt');
-        echo $read->modify(array(
-            '$name'    => $author,
-            '$fname'   => $author,
-            '$artPath' => $attr->compressedImg,
-            '$id'      => $post_id,
-            '$post_id' => $post_id,
-            '$msg'     => $button,
-        ));
+    $page = 1;
+    if (Input::get('page') !== '') {
+        $page = Input::get('page');
     }
+    $msg = new Message();
 
-    ?>
-    </div>
-    <?php
-} else {
-    echo "<h1 class='p-3 text-center text-muted'>You havent purchased any art yet</h1>";
+    $msg->getMsg('art_purchase', Pagination::getPage(0), array(
+        'limit'     => '10',
+        'condition' => array(
+            'target'   => 'usr_id',
+            'operator' => '=',
+            'value'    => Session::get('id'),
+        ),
+    ));
+    echo "<center><div id='post' class='text-container'>";
+    $msg->generateMsg('messagebox.txt', false);
+    echo "</div></center>";
+    $page = new Pagination($msg->totalPage('art_purchase',
+        array(
+            'usr_id',
+            '=',
+            Session::get('id'),
+        )));
 }
-
+// else {
+//     echo "<center><h1 class='m-5 text-muted'>Welp, there's nothing here...</h1></center>";
+// }
 ?>
 </div>
 </div>

@@ -5,6 +5,23 @@ Page::addHead();
 Page::addNav();
 
 ?>
+<div class="container my-sm-5 border rounded" style='background: #f5f5f5'>
+    <h1 class="text-center text-muted mt-4">Coins</h1>
+    <div class="container my-5">
+        <center>
+            <div class='card-deck'>
+
+                <?php
+
+$packages = new Package();
+$packages->genPackage();
+
+?>
+
+            </div>
+        </center>
+    </div>
+</div>
 
 
 
@@ -35,23 +52,6 @@ Page::addNav();
 
 
 
-<div class="container my-sm-5 border rounded" style='background: #f5f5f5'>
-    <h1 class="text-center text-muted mt-4">Coins</h1>
-    <div class="container my-5">
-        <center>
-            <div class='card-deck'>
-
-                <?php
-
-$packages = new Package();
-$packages->genPackage();
-
-?>
-
-            </div>
-        </center>
-    </div>
-</div>
 
 
 

@@ -36,7 +36,7 @@ if ($user->getLogin()) {
 }
 if ($post->isOwner(Session::get('id'))) {
     ?>
-                <a class="btn btn-info" href="post-edit.php?post=<?php echo  $msg->post_id ?>">Edit</a>
+                <a class="btn btn-info" href="post-edit.php?post=<?php echo $msg->post_id ?>">Edit</a>
                 <?php
 $read = new Reader();
     $read->read('yesnoModal.txt');
@@ -55,6 +55,14 @@ $read = new Reader();
     echo "<script>" . $read->getContent() . "</script>";
 }
 $buy = new purchase();
+
+// var_dump(!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id')) && $user->getLogin());
+// var_dump(!$buy->has($msg->post_id));
+// var_dump($post->getCost($msg->post_id) > 0);
+// var_dump(!$post->isOwner(Session::get('id')));
+// var_dump($user->getLogin());
+// var_dump(!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id')) && $user->getLogin());
+
 if (!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->isOwner(Session::get('id')) && $user->getLogin()) {
     $read = new Reader();
     $read->read('yesnoModal.txt');
@@ -119,10 +127,12 @@ $comment = new Comment();
     </div>
     <div class="container">
         <hr>
-        <h5 class='view-post-comment' id="comment-count">Comment: <?php echo $comment->getCount(Input::get('post'))?></h5>
+        <h5 class='view-post-comment' id="comment-count">Comment: <?php echo $comment->getCount(Input::get('post')) ?>
+        </h5>
         <div class="container">
             <div class="form-group">
-                <input class='form-control' onkeydown="LimitChar(this,200)" id='comment-field' maxlength="200" type="text">
+                <input class='form-control' onkeydown="LimitChar(this,200)" id='comment-field' maxlength="200"
+                    type="text">
                 <small id="character"></small>
                 <div class="error">
                 </div>

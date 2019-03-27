@@ -153,8 +153,9 @@ $msg->getMsg('post', Pagination::getPage(0), array(
 ));
 echo "<center><div id='post' class='text-container'>";
 $msg->generateMsg();
+
 echo "</div></center>";
-$page = new Pagination($msg->totalPage(
+$page = new Pagination($msg->totalPage('post',
     array(
         'usr_id',
         '=',
@@ -165,28 +166,28 @@ $page = new Pagination($msg->totalPage(
 ?>
         </div>
     </div>
-    </center>
+</center>
 
 
 
 
 
-    <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
-        <h5 class='view-post-comment'>Comment</h5>
-        <div class="container">
-            <div class="form-group">
+<div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
+    <h5 class='view-post-comment'>Comment</h5>
+    <div class="container">
+        <div class="form-group">
             <input class='form-control' onkeydown="LimitChar(this,200)" id='comment-field' maxlength="200" type="text">
-                <small id="character"></small>
-                <div class="error">
-                </div>
-            </div>
-            <div class="form-group">
-                <button class='form-control btn btn-primary' id="post-comment-submit">post comment</button>
+            <small id="character"></small>
+            <div class="error">
             </div>
         </div>
-        <hr>
-        <div class="container" id="comment" style="margin-bottom: 5%;">
-            <?php
+        <div class="form-group">
+            <button class='form-control btn btn-primary' id="post-comment-submit">post comment</button>
+        </div>
+    </div>
+    <hr>
+    <div class="container" id="comment" style="margin-bottom: 5%;">
+        <?php
 
 $comment = new Discussion();
 $comment->getDiscussion('discussion', 1, array(
@@ -199,7 +200,7 @@ $comment->getDiscussion('discussion', 1, array(
 ));
 echo $comment->generateDiscussion($currentUserID);
 ?>
-        </div>
-        <button id="load-comment" class="btn btn-primary">Load more (
-            <?php echo $comment->pageleft($currentUserID, 0, 3); ?> )</button>
-        <?php Page::addFoot();?>
+    </div>
+    <button id="load-comment" class="btn btn-primary">Load more (
+        <?php echo $comment->pageleft($currentUserID, 0, 3); ?> )</button>
+    <?php Page::addFoot();?>

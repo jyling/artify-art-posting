@@ -79,7 +79,7 @@ $msg->getMsg('post', Pagination::getPage(0), array(
 echo "<center><div id='post' class='text-container'>";
 $msg->generateMsg();
 echo "</div></center>";
-$page = new Pagination($msg->totalPage(
+$page = new Pagination($msg->totalPage('post',
     array(
         'category_id',
         '=',

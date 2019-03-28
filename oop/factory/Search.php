@@ -7,10 +7,10 @@ class Search
     // {
     //     $this->_data = new \stdClass();
     // }
-    public function get($terms = array(), $table = '')
+    public function get($terms = array(), $table = '',$limit = '',$page = '')
     {
         $db = DB::run();
-        $db->haystackFind($terms, $table);
+        $db->haystackFind($terms, $table, $limit, $page);
         return $db->getResult();
     }
 
@@ -21,12 +21,13 @@ class Search
         return $db->getCount();
     }
 
-    public function combine($terms = array())
+    public function combine($terms = array(),$limit ='',$page ='')
     {
         // $output = array();
         foreach ($terms as $table => $properties) {
             $this->_data[$table]['hits'] = $this->getCount($properties, $table);
-            $this->_data[$table]['data'] = $this->get($properties, $table);
+            $this->_data[$table]['page'] = ceil($this->getCount($properties, $table,$limit,$page)/ $limit);
+            $this->_data[$table]['data'] = $this->get($properties, $table,$limit,$page);
         }
         $this->_data = json_decode(json_encode($this->_data));
     }

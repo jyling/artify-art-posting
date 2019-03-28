@@ -71,7 +71,7 @@ class Ban
     {
         $db = DB::run();
         $db->multiCon('SELECT *', 'ban', array(
-            'usr_id' => Session::get('id'),
+            'usr_id' => $id,
             'valid'  => 1,
         ))->sortResult('ban_id');
         return $db->getResult()[0];
@@ -101,27 +101,26 @@ class Ban
     {
         if ($id == null) {
             $id = Session::get('id');
-            if ($this->has($id)) {
-                if (!$this->valid($id)) {
-                    $this->resetPermission($id);
-                    $this->destroyBan($id);
-                }
-
-            }
-        } else {
-            if ($this->has($id)) {
-                if (!$this->valid($id)) {
-                    $this->resetPermission($id);
-                    $this->destroyBan($id);
-                }
-
-            }
         }
+            if ($this->has($id)) {
+                if (!$this->valid($id)) {
+                    $this->resetPermission($id);
+                    $this->destroyBan($id);
+                }
+
+            }
+    }
+
+
+    public function forcedBanLift($id) {
+        $this->resetPermission($id);
+        $this->destroyBan($id);
     }
     public function destroyBan($id)
     {
         $db   = DB::run();
         $data = $this->get($id);
+        // print_r($data);
         $db->update('ban', array('ban_id' => $data->ban_id), array(
             'valid' => false,
         ));

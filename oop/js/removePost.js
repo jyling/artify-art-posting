@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $("#deletePost").click(function() {
+  $("#delete").click(function() {
     $.ajax({
       url: "ajax/ajax-remove-post.php",
       type: "post",

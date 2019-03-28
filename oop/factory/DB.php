@@ -121,7 +121,13 @@ class DB
 
     }
 
-    public function haystackFind($terms = array(),$table = '') {        
+    public function haystackFind($terms = array(),$table = '',$limit = '',$page = '') { 
+        $additionalCondition = '';
+        if ($limit != '') {
+            $offset    = (--$page * $limit);
+            $additionalCondition = "LIMIT $limit OFFSET $offset";
+        }
+
         $output = '';
         $val = array();
         foreach ($terms as $key => $value) {
@@ -129,7 +135,7 @@ class DB
             $val[] = "%$value%";
         }
         $output = substr($output,0,strlen($output) - 2);
-        $sql = "SELECT * FROM $table WHERE $output";
+        $sql = "SELECT * FROM $table WHERE $output $additionalCondition";
         // echo $sql . ' ' . var_dump($val) . "<br>";
         if (!$this->query($sql, $val)->error()) {
             return $this;

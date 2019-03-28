@@ -134,6 +134,12 @@ $a['nav']['items'] = array(
         'visible'      => false,
         'RequireLogin' => true,
     ),
+    'View Ban'  => array(
+        'file'         => 'viewBan.php',
+        'visible'      => false,
+        'permission'   => array('admin', 'mod'),
+        'RequireLogin' => true,
+    ),
     "Get Coins"           => array(
         'file'         => 'getCoins.php',
         'showOnLogin'  => true,

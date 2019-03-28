@@ -45,15 +45,28 @@ if (Input::exist()) {
                 'required' => true,
             ),
         ));
-        if ($result->passed()) {
+        if (Input::has('user')) {
+            if ($result->passed()) {
+                $db = DB::run();
+                $db->insert('report_user', array(
+                    'usr_id'         => Session::get('id'),
+                    'target_id'      => Validate::sanitize(Input::get('target')),
+                    'report_type'    => Validate::sanitize(Input::get('reportType')),
+                    'report_content' => Validate::sanitize(Input::get('description')),
+                ));
+                Page::printModal('Success!!!', 'Thanks for your input, our moderators and admin will look into your input', 'primary', 'index.php');
+            }
+        }
+        if (Input::has('post')) {
             $db = DB::run();
-            $db->insert('report_user', array(
+            $db->insert('report_post', array(
                 'usr_id'         => Session::get('id'),
-                'target_id'      => Validate::sanitize(Input::get('target')),
-                'report_type'    => Validate::sanitize(Input::get('reportType')),
-                'report_content' => Validate::sanitize(Input::get('description')),
+                'post_id'      => Validate::sanitize(Input::get('target')),
+                'report_type'    => Validate::sanitize('Others'),
+            'report_content' => Validate::sanitize(Input::get('description')),
             ));
             Page::printModal('Success!!!', 'Thanks for your input, our moderators and admin will look into your input', 'primary', 'index.php');
+
         }
     } elseif (Input::get('reportTypecbx') == 'Others') {
         $result = $vali->check($_POST, array(
@@ -77,17 +90,32 @@ if (Input::exist()) {
                 'required' => true,
             ),
         ));
-        if ($result->passed()) {
-            $db = DB::run();
-            $db->insert('report_user', array(
-                'usr_id'         => Session::get('id'),
-                'target_id'      => Validate::sanitize(Input::get('target')),
-                'report_type'    => Validate::sanitize('Others'),
+        if (Input::has('user')) {
+            if ($result->passed()) {
+                $db = DB::run();
+                $db->insert('report_user', array(
+                    'usr_id'         => Session::get('id'),
+                    'target_id'      => Validate::sanitize(Input::get('target')),
+                    'report_type'    => Validate::sanitize('Others'),
                 'report_title'   => Validate::sanitize(Input::get('title')),
                 'report_content' => Validate::sanitize(Input::get('description')),
             ));
             Page::printModal('Success!!!', 'Thanks for your input, our moderators and admin will look into your input', 'primary', 'index.php');
         }
+    }
+        if (Input::has('post')) {
+            if ($result->passed()) {
+                $db = DB::run();
+                $db->insert('report_post', array(
+                    'usr_id'         => Session::get('id'),
+                    'post_id'      => Validate::sanitize(Input::get('target')),
+                    'report_type'    => Validate::sanitize('Others'),
+                'report_title'   => Validate::sanitize(Input::get('title')),
+                'report_content' => Validate::sanitize(Input::get('description')),
+            ));
+            Page::printModal('Success!!!', 'Thanks for your input, our moderators and admin will look into your input', 'primary', 'index.php');
+        }
+    }
     } else {
         Page::printModal('Error!!!', 'Invalid Data, Please try again later', 'danger', 'index.php');
     }

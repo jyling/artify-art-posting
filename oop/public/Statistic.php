@@ -5,21 +5,66 @@ Page::addNav();
 Permission::kick();
 
 ?>
-<div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
+
+
     <?php
-$db = DB::run();
 
-$listedItem = array(
-    'usr'         => array(
-        'usrnm',
-    ),
-    'report_user' => array(
-        'report_id',
-        'report_type',
-        'report_title',
-        'report_content',
-    ),
+    function isActive($input) {
+        echo (Input::get('choice') == $input)? 'active' : '';
+    }
+$limit = 2;
+$page = 1;
+if (Input::get('page') !== '') {
+    $page = Input::get('page');
+}
 
+// if (!is_numeric($page) || $page <= 0) {
+//     Page::redirect($_SERVER['PHP_SELF'].Page::urlGetMaker(array(
+//         'choice' => Input::get('choice')
+//     )));
+// }
+
+
+if (!Input::has('choice')) {
+    $_POST['choice'] = 'user';
+}
+
+
+?>
+
+<center>
+<div class="btn-group">
+<a class="btn btn-primary <?php isActive('user') ?>" href="<?php echo $_SERVER['PHP_SELF'] . Page::urlGetMaker(array(
+    'choice' => 'user'
+)) ?>" >Reported User</a>
+<a class="btn btn-primary <?php isActive('post') ?>" href="<?php echo $_SERVER['PHP_SELF'] . Page::urlGetMaker(array(
+    'choice' => 'post'
+)) ?>" >Reported Art</a>
+<a class="btn btn-primary <?php isActive('ban') ?> " href="<?php echo $_SERVER['PHP_SELF'] . Page::urlGetMaker(array(
+    'choice' => 'ban'
+)) ?>" >Banned user</a>
+<a class="btn btn-primary <?php isActive('apply') ?>" href="<?php echo $_SERVER['PHP_SELF'] . Page::urlGetMaker(array(
+    'choice' => 'apply'
+)) ?>" >Apply Artist</a>
+</div>
+</center>
+
+<?php
+if (Input::get('choice') == 'user') {
+?>
+<div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
+<?php
+    # code...
+    $listedItem = array(
+        'usr'         => array(
+            'usrnm' => 'username',
+        ),
+        'report_user' => array(
+            'report_id' => 'report ID',
+        'report_type' => 'report type',
+        'report_title' => 'report title',
+        'report_content' => 'content',
+    ),
 );
 
 $identifier = array(
@@ -27,233 +72,171 @@ $identifier = array(
         'usr'         => 'usr_id',
         'report_user' => 'target_id',
     ));
-$condition = ' AND report_user.dismiss  < 1';
+    
+    $condition = ' AND report_user.dismiss  < 1';
 
-$db->jointTable($listedItem, $identifier, $condition);
-?>
+    $table = new Statistic();
+    $table->built('Reported User',$listedItem, $identifier, $condition,$limit, $page,$tool = 'user');
+    $pageCount = $table->getPageCount($limit);
 
-    <h3 class='m-sm-2'>Reported User : <?php echo $db->getCount(); ?></h3>
-    <?php
-if ($db->getCount() > 0) {
-    $joint = $db->getResult();
-    echo <<<table
-            <table class='table'>
-            <thead class='table-striped'>
-            <tr>
-                <th scope>Username</th>
-                <th scope>Report ID</th>
-                <th scope>Report Type</th>
-                <th scope>Report Title</th>
-                <th scope>Report Content</th>
-                <th scope>Tools</th>
-
-            </tr>
-            <tr>
-table;
-    foreach ($joint as $index => $users) {
-        echo "<tr>";
-        foreach ($users as $value) {
-            $value = (strlen($value) > 50) ? Message::StringOverFlow($value, 30) : $value;
-            echo "<td scope='col'>$value</td>";
-        }
-        echo <<<table
-                <td scope='col'>
-                  <a class='btn btn-primary' href='reportViewUser.php?report=$users->report_id'>View</a>
-                </td>
-        </tr>
-table;
+    if ($pageCount <  $page && $pageCount > 0) {
+        Page::redirect($_SERVER['PHP_SELF'].Page::urlGetMaker(array(
+            'choice' => Input::get('choice')
+        )));
     }
-    echo "</table>";
-} else {
-    echo "<h3>No User Left</h3>";
+    
+    $pagin = new Pagination($pageCount,array(
+        'choice' => Input::get('choice')
+    ));
+    ?>
+</div>
+<?php
 }
 ?>
 
-</div>
 
 
 
 
-
-
-
+<?php
+if (Input::get('choice') == 'post') {
+    # code...
+    ?>
 <div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
-    <h3 class='m-sm-2'>Reported Art : 4</h3>
-    <table class="table">
-        <thead class="table-striped">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Banned Since</th>
-                <th scope="col">Banned Notes</th>
-                <th scope="col">Tools</th>
-            </tr>
-        </thead>
-        <tr>
-            <td class="">Josh Sua</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Remove</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Xian</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Remove</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Ong</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Remove</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Ang</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Remove</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Su</td>
-            <td class="">Others</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Remove</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-    </table>
-</div>
+<?php
+$listedItem = array(
+    'post'         => array(
+        'post_id' => 'username',
+    ),
+    'report_post' => array(
+        'report_id' => 'report ID',
+        'report_type' => 'report type',
+        'report_title' => 'report title',
+        'report_content' => 'content',
+    ),
+    
+);
 
+$identifier = array(
+    '=' => array(
+        'post'         => 'post_id',
+        'report_post' => 'post_id',
+    ));
+    $condition = ' AND report_post.dismiss  < 1';
+    
+    $table = new Statistic();
+    $table->built('Reported Art',$listedItem, $identifier, $condition,$limit, $page,$tool = 'post');
+    $pageCount = $table->getPageCount($limit);
+
+    if ($pageCount <  $page && $pageCount > 0) {
+        Page::redirect($_SERVER['PHP_SELF'].Page::urlGetMaker(array(
+            'choice' => Input::get('choice')
+        )));
+    }
+
+    $pagin = new Pagination($pageCount,array(
+        'choice' => Input::get('choice')
+    ));
+    ?>
+</div>
+<?php
+}
+?>
+
+
+
+
+
+<?php
+if (Input::get('choice') == 'ban') {
+    # code...
+    ?>
 <div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
-    <h3 class='m-sm-2'>Banned User : 4</h3>
-    <table class="table">
-        <thead class="table-striped">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Banned Since</th>
-                <th scope="col">Banned Notes</th>
-                <th scope="col">Tools</th>
-            </tr>
-        </thead>
-        <tr>
-            <td class="">Josh Sua</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Unban</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Xian</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Unban</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Ong</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Unban</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Ang</td>
-            <td class="">Art Theft</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Unban</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-        <tr>
-            <td class="">Josh Su</td>
-            <td class="">Others</td>
-            <td class="">steals art</td>
-            <td class="">
-                <button class='btn btn-danger'>Unban</button>
-                <button class='btn btn-primary'>dismiss</button>
-            </td>
-        </tr>
-    </table>
+    
+<?php
+$db = DB::run();
+
+$listedItem = array(
+    'usr'   => array(
+        'usrnm' => 'username',
+    ),
+    'ban' => array(
+        'ban_id' => 'ban id',
+        'ban_date' => 'ban since',
+        'ban_till' => 'ban till',
+        'ban_reason' => 'reason'
+    ));
+    
+    $identifier = array(
+        '=' => array(
+            'usr'   => 'usr_id',
+            'ban' => 'usr_id',
+        ));
+$condition = 'AND ban.valid  = 1';
+
+$table = new Statistic();
+$table->built('Banned User',$listedItem, $identifier, $condition,$limit, $page,$tool = 'ban');
+$pageCount = $table->getPageCount($limit);
+
+if ($pageCount <  $page && $pageCount > 0) {
+    Page::redirect($_SERVER['PHP_SELF'].Page::urlGetMaker(array(
+        'choice' => Input::get('choice')
+    )));
+}
+
+$pagin = new Pagination($pageCount,array(
+    'choice' => Input::get('choice')
+));
+?>
+
 </div>
+<?php
+}
+?>
 
 
+
+
+<?php
+if (Input::get('choice') == 'apply') {
+?>
 <div class="container mt-sm-5 border rounded" style='background: #f5f5f5'>
     <?php
 $db = DB::run();
 
 $listedItem = array(
     'usr'   => array(
-        'usrnm',
+        'usrnm' => 'username',
     ),
     'apply' => array(
-        'content', 'apply_id',
+        'content' => 'content',
+        'apply_id' => 'apply id',
     ));
 
-$identifier = array(
-    '=' => array(
+    $identifier = array(
+        '=' => array(
         'usr'   => 'usr_id',
         'apply' => 'usr_id',
     ));
-$condition = 'AND apply.approval  < 1';
+    $condition = 'AND apply.approval  < 1';
+    $table = new Statistic();
+    $table->built('Applying artist',$listedItem, $identifier, $condition,$limit, $page,$tool = 'apply');
+    $pageCount = $table->getPageCount($limit);
 
-$db->jointTable($listedItem, $identifier, $condition);
-?>
-
-    <h3 class='m-sm-2'>New Artist : <?php echo $db->getCount(); ?></h3>
-    <?php
-if ($db->getCount() > 0) {
-    $joint = $db->getResult();
-    echo <<<table
-            <table class='table'>
-            <thead class='table-striped'>
-            <tr>
-                <th scope>Username</th>
-                <th scope>Content</th>
-                <th scope>Apply ID</th>
-                <th scope>Tools</th>
-            </tr>
-            <tr>
-table;
-    foreach ($joint as $index => $users) {
-        echo "<tr>";
-        foreach ($users as $value) {
-            echo "<td scope='col'>$value</td>";
-        }
-
-        echo <<<table
-                <td scope='col'>
-                  <a class='btn btn-primary' href='apply.php?apply=$users->apply_id'>View</a>
-                </td>
-        </tr>
-table;
+    if ($pageCount <  $page && $pageCount > 0) {
+        Page::redirect($_SERVER['PHP_SELF'].Page::urlGetMaker(array(
+            'choice' => Input::get('choice')
+        )));
     }
-    echo "</table>";
-} else {
-    echo "<h3>No User Left</h3>";
+
+    $pagin = new Pagination($pageCount,array(
+        'choice' => Input::get('choice')
+    ));
+    ?>
+</div>
+<?php
 }
 ?>
-</div>
-
-
 
 
 <?php Page::addFoot();?>

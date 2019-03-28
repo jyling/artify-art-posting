@@ -33,11 +33,12 @@ if (input::has('length') && Input::get('report')) {
     if ($result->passed()) {
         if (Input::get('choice') == 'Ban') {
             $db = DB::run();
-            $db->update('report_user', array('report_id' => Input::get('report')), array(
-                'dismiss' => 0,
+            $db->update('report_user', array('target_id' => $reportedUserDetail->usr_id), array(
+                'dismiss' => 1,
             ));
             $ban = new Ban();
             $ban->doBan(Input::get('target'), Input::get('length'), Input::get('reason'));
+            // die($db->getCount());
             Page::printModal("Banned", "$reportedUserDetail->usrnm is been banned for " . Input::get('length') . " Days", 'caution', "statistic.php");
         } else {
             $db = DB::run();

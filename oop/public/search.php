@@ -16,18 +16,7 @@ if (!Input::has('terms') || Input::get('terms') == '') {
     Page::redirect('index.php');
 }
 
-$search = new Search();
-$terms  = array(
-    'usr'  => array(
-        'usrnm'    => Input::get('terms'),
-        'nickname' => Input::get('terms'),
-    ),
-    'post' => array(
-        'title'   => Input::get('terms'),
-        'content' => Input::get('terms'),
-    ),
-);
-$search->combine($terms);
+
 
 // echo "<pre>";
 // print_r($search->getResult());
@@ -52,10 +41,7 @@ $search->combine($terms);
 </div>
 </div>
 <?php
-$page = 1;
-if (Input::get('page') !== '') {
-    $page = Input::get('page');
-}
+
 
 ?>
 <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
@@ -66,11 +52,58 @@ $choice = 'usr';
 if (Input::get('choice') !== '') {
     $choice = Input::get('choice');
 }
+if (strlen(Input::get('terms')) < 3) {
+    echo "<h3 class='text-muted m-3' >You need to have at least 3 character when searching</h3>";
+}
 
-$search->genCards($terms, $choice);
+
+
+else {
+
+    $page = 1;
+if (Input::get('page') !== '') {
+    $page = Input::get('page');
+}
+
+
+$search = new Search();
+$terms  = array(
+    'usr'  => array(
+        'usrnm'    => Input::get('terms'),
+        'nickname' => Input::get('terms'),
+    ),
+    'post' => array(
+        'title'   => Input::get('terms'),
+        'content' => Input::get('terms'),
+    ),
+);  
+
+if (!in_array(Input::get('choice'),array_keys($terms))) {
+    $choice = array_keys($terms)[0];
+    Page::redirect($_SERVER['PHP_SELF'] .Page::urlGetMaker(array(
+        'terms' => Input::get('terms'),
+        'choice' => $choice
+    )));
+}
+
+$search->combine($terms,10,$page);
+
+$search->genCards($terms, $choice); 
+$pageCount = $search->getResult()->{$choice}->page;
+if ($pageCount < $page && $pageCount != 0) {
+    Page::redirect($_SERVER['PHP_SELF'] .Page::urlGetMaker(array(
+        'terms' => Input::get('terms'),
+        'choice' => Input::get('choice')
+    )));
+}
+$pagin = new Pagination($pageCount,array(
+    'terms' => Input::get('terms'),
+    'choice' => Input::get('choice')
+));
+}
+
 echo "</div></center>";
 
-// $pag = new Pagination($msg->totalPage());
  ?>
 </div>
 </div>

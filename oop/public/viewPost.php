@@ -34,6 +34,20 @@ if ($user->getLogin()) {
                     onclick="<?php echo "follow($msg->usr_id)" ?>"><?php echo $title ?></button>
                 <?php
 }
+
+
+if (!$post->isOwner(Session::get('id'))) {
+Anchor::build(array(
+    'title' => "Report",
+    'link'  => "report.php?post=" . Input::get('post'),
+    'class' => array("btn",
+        "btn-danger",
+        "m-sm-2",
+    ),
+));
+}
+
+
 if ($post->isOwner(Session::get('id'))) {
     ?>
                 <a class="btn btn-info" href="post-edit.php?post=<?php echo $msg->post_id ?>">Edit</a>
@@ -47,7 +61,7 @@ $read = new Reader();
         '$title'     => 'Delete Post ?',
         '$content'   => 'Are you sure you want to delete your post ?',
         '$btnType'   => 'danger',
-        '$yesID'     => 'deletePost',
+        '$yesID'     => 'delete',
     ));
     echo $output;
     $read = new Reader();
@@ -81,6 +95,7 @@ if (!$buy->has($msg->post_id) && $post->getCost($msg->post_id) > 0 && !$post->is
     echo "<script>" . $read->getContent() . "</script>";
 
 }
+
 ?>
                 <div class="container mt-sm-3 border rounded" style='background: #f5f5f5'>
             </p>

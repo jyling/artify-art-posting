@@ -132,7 +132,7 @@ function like(post, value) {
 
 function follow(e) {
   $.ajax({
-    url: "ajax/ajax-follow.php",
+    url: "ajax/ajax-follow.php", 
     type: "post",
     data: { id: e },
     success: function(data, status) {
